@@ -13,7 +13,7 @@ public abstract class Piece {
     }
 
     public boolean move(int newX, int newY) {
-        if (board.isNormal(newX, newY)) {
+        if (board.isNormal(newX, newY) || board.isOpponentHomeBase(newX, newY, owner)) {
             board.movePiece(this, newX, newY);
             return true;
         }

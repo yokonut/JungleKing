@@ -5,7 +5,7 @@ public class Rat extends Piece {
 
     @Override
     public boolean move(int newX, int newY) {
-        if (board.isNormal(newX, newY) || board.isLake(newX, newY)) {
+        if (board.isNormal(newX, newY) || board.isLake(newX, newY) || board.isOpponentHomeBase(newX, newY, owner)) {
             board.movePiece(this, newX, newY);
             return true;
         }

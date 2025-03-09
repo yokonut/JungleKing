@@ -28,12 +28,12 @@ public class Board {
         setLake(5, 5);
 
         // Define traps (near home base)
-        setTrap(2, 0, "Player 2");
-        setTrap(3, 1, "Player 2");
-        setTrap(4, 0, "Player 2");
-        setTrap(2, 8, "Player 1");
-        setTrap(3, 7, "Player 1");
-        setTrap(4, 8, "Player 1");
+        // setTrap(2, 0, "Player 2");
+        // setTrap(3, 1, "Player 2");
+        // setTrap(4, 0, "Player 2");
+        // setTrap(2, 8, "Player 1");
+        // setTrap(3, 7, "Player 1");
+        // setTrap(4, 8, "Player 1");
 
         // Define home bases
         setHomeBase(3, 0, "Player 1");
@@ -44,10 +44,12 @@ public class Board {
         grid[x][y] = new Tile(Tile.LAKE);
     }
 
-    private void setTrap(int x, int y, String playerName) {
-        grid[x][y] = new Tile(Tile.TRAP);
-        grid[x][y].setOwner(new Player(playerName));
-    }
+    /*
+     * private void setTrap(int x, int y, String playerName) {
+     * grid[x][y] = new Tile(Tile.TRAP);
+     * grid[x][y].setOwner(new Player(playerName));
+     * }
+     */
 
     private void setHomeBase(int x, int y, String playerName) {
         grid[x][y] = new Tile(Tile.HOME_BASE);
@@ -66,8 +68,9 @@ public class Board {
         return grid[x][y].getType() == Tile.TRAP;
     }
 
-    public boolean isHomeBase(int x, int y) {
-        return grid[x][y].getType() == Tile.HOME_BASE;
+    public boolean isOpponentHomeBase(int x, int y, Player player) {
+        Tile tile = grid[x][y];
+        return tile.getType() == Tile.HOME_BASE && !tile.getOwner().equals(player);
     }
 
     public Piece getPiece(int x, int y) {
@@ -119,7 +122,7 @@ public class Board {
             }
         }
 
-        else if(y < newY || y > newY) {
+        else if (y < newY || y > newY) {
             int n = 3;
 
             if (y < newY) {
