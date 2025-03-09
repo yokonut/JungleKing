@@ -5,6 +5,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+
+/**
+ * The Game class represents the main game logic for the Jungle King game.
+ * It handles the initialization of the game, player turns, and game rules.
+ */
 public class Game {
     private Board board;
     private Player player1, player2;
@@ -12,12 +17,17 @@ public class Game {
     private Scanner scanner;
     private Map<String, Integer> pieceHierarchy;
 
+
+    /**
+     * Constructs a new Game and initializes the game components.
+     */
     public Game() {
         // Initialize Game components
         board = new Board();
         player1 = new Player("Player 1");
         player2 = new Player("Player 2");
         scanner = new Scanner(System.in);
+        
 
         // Define piece hierarchy with HashMap
         pieceHierarchy = new HashMap<>();
@@ -68,7 +78,10 @@ public class Game {
     */
 
 
-    // Determines the first player
+    /**
+     * Determines the first player by having each player select a piece.
+     * The player who selects the stronger piece goes first.
+     */
     private void determineFirstPlayer() {
 
         // Create a list of all pieces while initializing them
@@ -111,7 +124,9 @@ public class Game {
         System.out.println(currentPlayer.getName() + " goes first!!");
     }
 
-    // Start of the game
+    /**
+     * Starts the game and handles the main game loop.
+     */
     public void start() {
         Boolean isGameOver = false;
         while (!isGameOver) {
@@ -202,8 +217,15 @@ public class Game {
 
     }
 
-    // Check if the attacker can capture the defender
+    
 
+     /**
+     * Checks if the attacker can capture the defender.
+     *
+     * @param attacker the attacking piece
+     * @param defender the defending piece
+     * @return true if the attacker can capture the defender, false otherwise
+     */
     private boolean canCapture(Piece attacker, Piece defender) {
         if (attacker.getName().equals("Rat") && defender.getName().equals("Elephant")) {       // Special case: Rat can capture Elephant
             return true; 
@@ -217,7 +239,9 @@ public class Game {
     }
 
 
-    // Switch the current player
+    /**
+     * Switches the current player.
+     */
     private void switchPlayer() {
         if (currentPlayer == player1) {
             currentPlayer = player2;
