@@ -4,6 +4,7 @@ public abstract class Piece {
     protected Player owner;
     protected Board board;
 
+
     public Piece(String name, int x, int y, Player owner, Board board) {
         this.name = name;
         this.x = x;
@@ -12,6 +13,8 @@ public abstract class Piece {
         this.board = board;
     }
 
+
+    // Move the piece to a new location
     public boolean move(int newX, int newY) {
         if (board.isNormal(newX, newY) || board.isOpponentHomeBase(newX, newY, owner)) {
             board.movePiece(this, newX, newY);

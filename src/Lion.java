@@ -3,6 +3,9 @@ public class Lion extends Piece {
         super("Lion", x, y, owner, board);
     }
 
+
+
+    // Special move for Lion
     @Override
     public boolean move(int newX, int newY) {
         if (board.isLake(newX, newY)) {

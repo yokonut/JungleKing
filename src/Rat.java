@@ -3,6 +3,8 @@ public class Rat extends Piece {
         super("Rat", x, y, owner, board);
     }
 
+
+    // Special move for Rat
     @Override
     public boolean move(int newX, int newY) {
         if (board.isNormal(newX, newY) || board.isLake(newX, newY) || board.isOpponentHomeBase(newX, newY, owner)) {

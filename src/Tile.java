@@ -6,12 +6,14 @@ public class Tile {
     
     private int type;
     private Piece piece;
-    private Player owner; // Used for traps and home base ownership
+    private Player owner;
 
+
+    // Constructor
     public Tile(int type) {
         this.type = type;
-        this.piece = null;
-        this.owner = null;
+        this.piece = null;              // No piece on the tile
+        this.owner = null;              // No owner of the tile
     }
 
     public int getType() {
@@ -22,6 +24,7 @@ public class Tile {
         return piece;
     }
 
+    // Place a piece on the tile
     public void setPiece(Piece piece) {
         this.piece = piece;
     }

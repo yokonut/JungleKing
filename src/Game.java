@@ -167,14 +167,14 @@ public class Game {
 
             // Check if the target tile is occupied
             Piece targetPiece = board.getPiece(newX, newY);
-            if (targetPiece != null) {                                                                              // target tile is occupied by a piece
+            if (targetPiece != null && !board.isLake(newX,newY)) {                                                  // target tile is occupied by a piece
                 if (targetPiece.getOwner() == currentPlayer) {                                                      // target piece is owned by the current player
                     System.out.println("You cannot capture your own piece. Try again.");
                     continue;
                 } else if (canCapture(piece, targetPiece)) {                                                        // target piece can be captured                     
                     System.out.println(piece.getName() + " captured " + targetPiece.getName() + "!");
                     board.movePiece(piece, newX, newY);
-                    if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
+                    if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {                                      // check if the opponent's home base is captured
                         System.out.println(currentPlayer.getName() + " wins!");
                         isGameOver = true;
                     }
@@ -186,7 +186,7 @@ public class Game {
 
             // if the target tile is not occupied
             else {
-                if (piece.move(newX, newY)) {
+                if (piece.move(newX, newY)) {                                                                       // move the piece to the target tile
                     if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
                         System.out.println(currentPlayer.getName() + " wins!");
                         isGameOver = true;
@@ -202,11 +202,13 @@ public class Game {
 
     }
 
+    // Check if the attacker can capture the defender
+
     private boolean canCapture(Piece attacker, Piece defender) {
-        if (attacker.getName().equals("Rat") && defender.getName().equals("Elephant")) {
-            return true; // Special case: Rat can capture Elephant
+        if (attacker.getName().equals("Rat") && defender.getName().equals("Elephant")) {       // Special case: Rat can capture Elephant
+            return true; 
         }
-        if (attacker.getName().equals("Elephant") && defender.getName().equals("Rat")) {
+        if (attacker.getName().equals("Elephant") && defender.getName().equals("Rat")) {      // Special case: Elephant CAN'T capture Rat
             return false; // Special case: Rat can capture Elephant
         }
         Integer attackerRank = pieceHierarchy.get(attacker.getName());
@@ -214,7 +216,13 @@ public class Game {
         return attackerRank >= defenderRank;
     }
 
+
+    // Switch the current player
     private void switchPlayer() {
-        currentPlayer = (currentPlayer == player1) ? player2 : player1;
+        if (currentPlayer == player1) {
+            currentPlayer = player2;
+        } else {
+            currentPlayer = player1;
+        }
     }
 }
