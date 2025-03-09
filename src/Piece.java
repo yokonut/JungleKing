@@ -12,7 +12,13 @@ public abstract class Piece {
         this.board = board;
     }
 
-    public abstract boolean move(int newX, int newY);
+    public boolean move(int newX, int newY) {
+        if (board.isNormal(newX, newY)) {
+            board.movePiece(this, newX, newY);
+            return true;
+        }
+        return false;
+    }
 
     public String getName() {
         return name;
