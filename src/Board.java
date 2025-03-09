@@ -54,11 +54,9 @@ public class Board {
         grid[x][y].setOwner(new Player(playerName));
     }
 
-    public Tile getTile(int x, int y) {
-        return grid[x][y];
+    public boolean isNormal(int x, int y) {
+        return grid[x][y].getType() == Tile.NORMAL;
     }
-
-   
 
     public boolean isLake(int x, int y) {
         return grid[x][y].getType() == Tile.LAKE;
@@ -91,13 +89,14 @@ public class Board {
     }
 
     public void placePiece(Piece piece) {
-        grid[piece.x][piece.y].setPiece(piece);
+        grid[piece.getX()][piece.getY()].setPiece(piece); // set the piece to the tile
     }
 
     public void movePiece(Piece piece, int newX, int newY) {
-        grid[piece.getX()][piece.getY()].setPiece(null);
-        piece.move(newX, newY);
-        grid[newX][newY].setPiece(piece);
+        grid[piece.getX()][piece.getY()].setPiece(null); // make the old tile empty
+        piece.x = newX; // update piece coordinates
+        piece.y = newY; // update piece coordinates
+        grid[newX][newY].setPiece(piece); // set new tile to the piece
     }
 
     public void printBoard() {
@@ -109,7 +108,7 @@ public class Board {
                 } else if (tile.getType() == Tile.LAKE) {
                     System.out.print("~ ");
                 } else if (tile.getType() == Tile.TRAP) {
-                    System.out.print("Z ");
+                    System.out.print(". ");
                 } else if (tile.getType() == Tile.HOME_BASE) {
                     System.out.print("H ");
                 } else {

@@ -31,24 +31,24 @@ public class Game {
         pieceHierarchy.put("Elephant", 7);
 
         // Player 1 Pieces
-        Piece elephant1 = new Elephant(0, 2, player1);
-        Piece lion1 = new Lion(6, 0, player1);
-        Piece tiger1 = new Tiger(0, 0, player1);
-        Piece leopard1 = new Leopard(4, 2, player1);
-        Piece wolf1 = new Wolf(2, 2, player1);
-        Piece dog1 = new Dog(5, 1, player1);
-        Piece cat1 = new Cat(1, 1, player1);
-        Piece rat1 = new Rat(6, 2, player1);
+        Piece elephant1 = new Elephant(0, 2, player1, board);
+        Piece lion1 = new Lion(6, 0, player1, board);
+        Piece tiger1 = new Tiger(0, 0, player1, board);
+        Piece leopard1 = new Leopard(4, 2, player1, board);
+        Piece wolf1 = new Wolf(2, 2, player1, board);
+        Piece dog1 = new Dog(5, 1, player1, board);
+        Piece cat1 = new Cat(1, 1, player1, board);
+        Piece rat1 = new Rat(6, 2, player1, board);
 
         // Player 2 Pieces
-        Piece elephant2 = new Elephant(6, 6, player2);
-        Piece lion2 = new Lion(0, 8, player2);
-        Piece tiger2 = new Tiger(6, 8, player2);
-        Piece leopard2 = new Leopard(2, 6, player2);
-        Piece wolf2 = new Wolf(4, 6, player2);
-        Piece dog2 = new Dog(1, 7, player2);
-        Piece cat2 = new Cat(5, 7, player2);
-        Piece rat2 = new Rat(0, 6, player2);
+        Piece elephant2 = new Elephant(6, 6, player2, board);
+        Piece lion2 = new Lion(0, 8, player2, board);
+        Piece tiger2 = new Tiger(6, 8, player2, board);
+        Piece leopard2 = new Leopard(2, 6, player2, board);
+        Piece wolf2 = new Wolf(4, 6, player2, board);
+        Piece dog2 = new Dog(1, 7, player2, board);
+        Piece cat2 = new Cat(5, 7, player2, board);
+        Piece rat2 = new Rat(0, 6, player2, board);
 
         // Place Pieces on Board
         board.placePiece(elephant1);
@@ -70,10 +70,10 @@ public class Game {
         board.placePiece(rat2);
     }
 
-
     // Start of the game
     public void start() {
         while (true) {
+            // print board
             board.printBoard();
             if (currentPlayer == null) {
                 System.out.println("Error: Current player is null.");
@@ -89,9 +89,11 @@ public class Game {
                 continue;
             }
 
+            // get coordinates of the piece
             int x = piece.getX();
             int y = piece.getY();
 
+            // get the move direction
             System.out.print("Move direction (WASD): ");
             char move = scanner.next().toUpperCase().charAt(0);
             int newX = x, newY = y;
@@ -114,6 +116,13 @@ public class Game {
                     continue;
             }
 
+            // Check if the target tile is out of bounds
+            if (newX < 0 || newX >= 7 || newY < 0 || newY >= 9) {
+                System.out.println("Invalid move. Out of bounds.");
+                continue;
+            }
+
+            // Check if the target tile is occupied
             Piece targetPiece = board.getPiece(newX, newY);
             if (targetPiece != null) {
                 if (targetPiece.getOwner() == currentPlayer) {
@@ -126,13 +135,19 @@ public class Game {
                 } else {
                     System.out.println("Cannot capture this piece. Try again.");
                 }
-            } else if (piece.isValidMove(newX, newY, board)) {
-                board.movePiece(piece, newX, newY);
-                switchPlayer();
-            } else {
-                System.out.println("Invalid move. Try again.");
             }
+
+            // check if the target tile is lake or normal
+            else {
+                if (piece.move(newX, newY)) {
+                    switchPlayer();
+                } else {
+                    System.out.println("Invalid move. Try again.");
+                }
+            }
+
         }
+
     }
 
     private boolean canCapture(Piece attacker, Piece defender) {

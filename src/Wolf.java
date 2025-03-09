@@ -1,5 +1,14 @@
 public class Wolf extends Piece {
-    public Wolf(int x, int y, Player owner) {
-        super("Wolf", x, y, owner);
+    public Wolf(int x, int y, Player owner, Board board) {
+        super("Wolf", x, y, owner, board);
+    }
+
+    @Override
+    public boolean move(int newX, int newY) {
+        if (board.isNormal(newX, newY)) {
+            board.movePiece(this, newX, newY);
+            return true;
+        }
+        return false;
     }
 }
