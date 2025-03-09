@@ -99,6 +99,46 @@ public class Board {
         grid[newX][newY].setPiece(piece); // set new tile to the piece
     }
 
+    public boolean isRatInLakePath(int x, int y, int newX, int newY) {
+        if (x < newX || x > newX) {
+            int n = 2;
+
+            if (x < newX) {
+
+                for (int i = newX; i < newX + n; i++) {
+                    if (grid[i][y].getPiece() != null && grid[i][y].getPiece().getName().equals("Rat")) {
+                        return true;
+                    }
+                }
+            } else if (x > newX) {
+                for (int i = newX; i > newX - n; i--) {
+                    if (grid[i][y].getPiece() != null && grid[i][y].getPiece().getName().equals("Rat")) {
+                        return true;
+                    }
+                }
+            }
+        }
+
+        else if(y < newY || y > newY) {
+            int n = 3;
+
+            if (y < newY) {
+                for (int i = newY; i < newY + n; i++) {
+                    if (grid[x][i].getPiece() != null && grid[x][i].getPiece().getName().equals("Rat")) {
+                        return true;
+                    }
+                }
+            } else if (y > newY) {
+                for (int i = newY; i > newY - n; i--) {
+                    if (grid[x][i].getPiece() != null && grid[x][i].getPiece().getName().equals("Rat")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     public void printBoard() {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {

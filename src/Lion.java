@@ -6,6 +6,10 @@ public class Lion extends Piece {
     @Override
     public boolean move(int newX, int newY) {
         if (board.isLake(newX, newY)) {
+            if (board.isRatInLakePath(x, y, newX, newY)) {
+                System.out.println("Cannot jump over the lake. A Rat is in the way.");
+                return false;
+            }
             if (x < newX) {
                 board.movePiece(this, newX + 2, newY);
             } else if (x > newX) {
