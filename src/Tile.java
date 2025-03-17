@@ -3,12 +3,8 @@
  * Each tile has a type, an optional piece, and an optional owner.
  */
 public class Tile {
-    public static int NORMAL = 0;
-    public static int LAKE = 1;
-    public static int TRAP = 2;
-    public static int HOME_BASE = 3;
-
-    private int type;
+    
+    private String type;
     private Piece piece;
     private Player owner;
 
@@ -17,7 +13,7 @@ public class Tile {
      *
      * @param type the type of the tile (NORMAL, LAKE, TRAP, HOME_BASE)
      */
-    public Tile(int type) {
+    public Tile(String type) {
         this.type = type;
         this.piece = null; // No piece on the tile
         this.owner = null; // No owner of the tile
@@ -29,7 +25,7 @@ public class Tile {
      *
      * @return the type of the tile
      */
-    public int getType() {
+    public String getType() {
         return type;
     }
 

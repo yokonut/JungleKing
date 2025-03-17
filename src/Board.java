@@ -17,7 +17,7 @@ public class Board {
         // Initialize board tiles
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                grid[i][j] = new Tile(Tile.NORMAL);
+                grid[i][j] = new Normal();
             }
         }
 
@@ -56,7 +56,7 @@ public class Board {
      * @param y the y-coordinate of the tile
      */
     private void setLake(int x, int y) {
-        grid[x][y] = new Tile(Tile.LAKE);
+        grid[x][y] = new Lake();
     }
 
     /* 
@@ -75,7 +75,7 @@ public class Board {
      * @param playerName the name of the player who owns the home base
      */    
     private void setHomeBase(int x, int y, String playerName) {
-        grid[x][y] = new Tile(Tile.HOME_BASE);
+        grid[x][y] = new Home();
         grid[x][y].setOwner(new Player(playerName));
     }
 
@@ -88,7 +88,7 @@ public class Board {
      * @return true if the tile is a normal tile, false otherwise
      */
     public boolean isNormal(int x, int y) {
-        return grid[x][y].getType() == Tile.NORMAL;
+        return grid[x][y].getType() == "Normal";
     }
 
 
@@ -100,7 +100,7 @@ public class Board {
      * @return true if the tile is a lake, false otherwise
      */
     public boolean isLake(int x, int y) {
-        return grid[x][y].getType() == Tile.LAKE;
+        return grid[x][y].getType() == "Lake";
     }
 
 
@@ -112,7 +112,7 @@ public class Board {
      * @return true if the tile is a trap, false otherwise
      */
     public boolean isTrap(int x, int y) {
-        return grid[x][y].getType() == Tile.TRAP;
+        return grid[x][y].getType() == "Trap";
     }
 
 
@@ -126,7 +126,7 @@ public class Board {
      */
     public boolean isOpponentHomeBase(int x, int y, Player playerName) {
         Tile tile = grid[x][y];
-        return tile.getType() == Tile.HOME_BASE && !tile.getOwner().equals(playerName);
+        return tile.getType() == "Home" && !tile.getOwner().equals(playerName);
     }
 
 
@@ -248,11 +248,11 @@ public class Board {
                 Tile tile = grid[i][j];
                 if (tile.isOccupied()) {
                     System.out.print(tile.getPiece().getName().charAt(0) + " ");
-                } else if (tile.getType() == Tile.LAKE) {
+                } else if (tile.getType() == "Lake") {
                     System.out.print("~ ");
-                } else if (tile.getType() == Tile.TRAP) {
+                } else if (tile.getType() == "Trap") {
                     System.out.print(". ");
-                } else if (tile.getType() == Tile.HOME_BASE) {
+                } else if (tile.getType() == "Home") {
                     System.out.print("H ");
                 } else {
                     System.out.print(". ");
