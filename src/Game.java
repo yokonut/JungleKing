@@ -15,15 +15,18 @@ public class Game {
     private Player player1, player2;
     private Player currentPlayer;
     private Scanner scanner;
+    private ArrayDisplayPanel displayPanel;
     private Map<String, Integer> pieceHierarchy;
 
 
     /**
      * Constructs a new Game and initializes the game components.
      */
-    public Game() {
+    public Game(Board board, ArrayDisplayPanel displayPanel) {
         // Initialize Game components
-        board = new Board();
+        this.board = board;
+        this.displayPanel = displayPanel;
+
         player1 = new Player("Player 1");
         player2 = new Player("Player 2");
         scanner = new Scanner(System.in);
@@ -132,6 +135,7 @@ public class Game {
         while (!isGameOver) {
             
             // print board
+            displayPanel.updateBoard();
             board.printBoard();
             if (currentPlayer == null) {
                 System.out.println("Error: Current player is null.");
@@ -139,6 +143,8 @@ public class Game {
             }
             System.out.println(currentPlayer.getName() + "'s turn.");
             System.out.print("Select piece by name: ");
+
+
             String pieceName = scanner.next();
             Piece piece = board.getPieceByName(pieceName, currentPlayer);
 
@@ -189,6 +195,7 @@ public class Game {
                 } else if (canCapture(piece, targetPiece)) {                                                        // target piece can be captured                     
                     System.out.println(piece.getName() + " captured " + targetPiece.getName() + "!");
                     board.movePiece(piece, newX, newY);
+                    displayPanel.updateBoard();
                     if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {                                      // check if the opponent's home base is captured
                         System.out.println(currentPlayer.getName() + " wins!");
                         isGameOver = true;
@@ -201,10 +208,12 @@ public class Game {
 
             // if the target tile is not occupied
             else {
-                if (piece.move(newX, newY)) {                                                                       // move the piece to the target tile
+                if (piece.move(newX, newY)) {       
+                    displayPanel.updateBoard();                                                                // move the piece to the target tile
                     if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
                         System.out.println(currentPlayer.getName() + " wins!");
                         isGameOver = true;
+                        displayPanel.updateBoard();
                     }
                     switchPlayer();
                 } else {
@@ -212,6 +221,8 @@ public class Game {
                 }
             }
             
+
+
 
         }
 
