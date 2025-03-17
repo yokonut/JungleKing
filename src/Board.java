@@ -48,6 +48,10 @@ public class Board {
         setHomeBase(3, 8, "Player 2");
     }
 
+    public Tile[][] getGrid() {
+        return grid;
+    }
+
 
     /**
      * Sets a tile as a lake.
