@@ -1,12 +1,16 @@
-/**
- * The Tile class represents a tile on the game board in the Jungle King game.
- * Each tile has a type, an optional piece, and an optional owner.
- */
+
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
+
 public class Tile {
     
     private String type;
     private Piece piece;
     private Player owner;
+    private Image image;
 
     /**
      * Constructs a new Tile with the specified type.
@@ -17,8 +21,22 @@ public class Tile {
         this.type = type;
         this.piece = null; // No piece on the tile
         this.owner = null; // No owner of the tile
+        loadImage();
     }
 
+
+    private void loadImage() {
+        try {
+            this.image = ImageIO.read(new File("images/" + type + ".png"))
+                        .getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        } catch (IOException e) {
+            System.out.println("Error loading image for tile: " + type);
+        }
+    }
+
+    public Image getImage() {
+        return image;
+    }
 
     /**
      * Gets the type of the tile.
@@ -68,6 +86,7 @@ public class Tile {
         this.owner = owner;
     }
 
+    
 
     /**
      * Checks if the tile is occupied by a piece.

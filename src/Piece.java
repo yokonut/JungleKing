@@ -1,21 +1,30 @@
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+
 /**
  * The Piece class represents a game piece in the Jungle King game.
- * Each piece has a name, coordinates (x, y), an owner (Player), and a reference to the game board.
+ * Each piece has a name, coordinates (x, y), an owner (Player), and a reference
+ * to the game board.
  */
-public abstract class Piece {
-    public String name;
-    public int x, y;
-    public Player owner;
-    public Board board;
+public class Piece {
+    protected String name;
+    protected int x, y;
+    protected Player owner;
+    protected Board board;
+    protected Image image;
 
     /**
-     * Constructs a new Piece with the specified name, coordinates, owner, and board.
+     * Constructs a new Piece with the specified name, coordinates, owner, and
+     * board.
      *
      * @param name  the name of the piece
      * @param x     the x-coordinate of the piece
      * @param y     the y-coordinate of the piece
      * @param owner the owner of the piece
      * @param board the game board the piece is on
+     * 
      */
 
     public Piece(String name, int x, int y, Player owner, Board board) {
@@ -24,6 +33,27 @@ public abstract class Piece {
         this.y = y;
         this.owner = owner;
         this.board = board;
+        loadImage();
+    }
+
+    private void loadImage() {
+        String filename = name.toLowerCase();
+        
+        // If the piece belongs to Player 2, use the "piece2.png" version
+        if (owner.getName().equals("Player 2")) {
+            filename += "2"; // Example: "cat2.png", "elephant2.png"
+        }
+
+        try {
+            this.image = ImageIO.read(new File("images/" + filename + ".png"))
+                        .getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+        } catch (IOException e) {
+            System.out.println("Error loading image for " + filename);
+        }
+    }
+
+    public Image getImage() {
+        return image;
     }
 
     /**
@@ -41,7 +71,6 @@ public abstract class Piece {
         return false;
     }
 
-
     /**
      * Gets the name of the piece.
      *
@@ -50,7 +79,6 @@ public abstract class Piece {
     public String getName() {
         return name;
     }
-
 
     /**
      * Gets the owner of the piece.
@@ -61,7 +89,6 @@ public abstract class Piece {
         return owner;
     }
 
-
     /**
      * Gets the x-coordinate of the piece.
      *
@@ -70,7 +97,6 @@ public abstract class Piece {
     public int getX() {
         return x;
     }
-
 
     /**
      * Gets the y-coordinate of the piece.

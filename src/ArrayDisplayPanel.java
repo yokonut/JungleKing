@@ -1,7 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
 
-
 public class ArrayDisplayPanel extends JPanel {
     private final int WIDTH = 9;
     private final int HEIGHT = 7;
@@ -12,34 +11,43 @@ public class ArrayDisplayPanel extends JPanel {
         setPreferredSize(new Dimension(450, 350));
     }
 
-
-
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int cellWidth = getWidth() / WIDTH;
         int cellHeight = getHeight() / HEIGHT;
 
-
-
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
-                g.drawRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-
                 Tile tile = board.getGrid()[i][j];
 
-                // If occupied, draw the piece
+                // Draw the tile image
+                Image tileImage = tile.getImage();
+                if (tileImage != null) {
+                    g.drawImage(tileImage, j * cellWidth, i * cellHeight, this);
+                } else {
+                    g.setColor(Color.GRAY);
+                    g.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
+                }
+
+                // Draw the piece on top of the tile
                 if (tile.isOccupied()) {
-                    g.drawString(tile.getPiece().getName(), j * cellWidth + 10, i * cellHeight + 20);
+                    Piece piece = tile.getPiece();
+                    Image pieceImage = piece.getImage();
+
+                    if (pieceImage != null) {
+                        g.drawImage(pieceImage, j * cellWidth, i * cellHeight, this);
+                    }
                 }
-                else {
-                    g.drawString(tile.getType(), j * cellWidth + 10, i * cellHeight + 20);
-                }
+
+                // Draw grid lines
+                g.setColor(Color.BLACK);
+                g.drawRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
             }
         }
     }
 
     public void updateBoard() {
-        repaint();  // Refresh GUI when the board updates
+        repaint();  // Refresh the GUI when the board updates
     }
 }
