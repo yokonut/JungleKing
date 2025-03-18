@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 
+
 public class ArrayDisplayPanel extends JPanel {
     private final int WIDTH = 9;
     private final int HEIGHT = 7;
@@ -11,11 +12,15 @@ public class ArrayDisplayPanel extends JPanel {
         setPreferredSize(new Dimension(450, 350));
     }
 
+
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         int cellWidth = getWidth() / WIDTH;
         int cellHeight = getHeight() / HEIGHT;
+
+
 
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
