@@ -25,11 +25,8 @@ public class ArrayDisplayPanel extends JPanel {
                 Image tileImage = tile.getImage();
                 if (tileImage != null) {
                     g.drawImage(tileImage, j * cellWidth, i * cellHeight, this);
-                } else {
-                    g.setColor(Color.GRAY);
-                    g.fillRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
-                }
-
+                } 
+                
                 // Draw the piece on top of the tile
                 if (tile.isOccupied()) {
                     Piece piece = tile.getPiece();

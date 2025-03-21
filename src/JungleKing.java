@@ -11,7 +11,9 @@ public class JungleKing {
         frame.add(displayPanel);
         frame.pack();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
         frame.setVisible(true);
+        frame.setAlwaysOnTop(true);
 
         // Start the game
         game.start();

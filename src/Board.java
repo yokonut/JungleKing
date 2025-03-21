@@ -35,13 +35,13 @@ public class Board {
         setLake(2, 5);
         setLake(5, 5);
 
-        // Define traps (near home base)
-        //setTrap(2, 0, "Player 2");
-        //setTrap(3, 1, "Player 2");
-        //setTrap(4, 0, "Player 2");
-        //setTrap(2, 8, "Player 1");
-        //setTrap(3, 7, "Player 1");
-        //setTrap(4, 8, "Player 1");
+       
+        setTrap(2, 0, "Player 2");
+        setTrap(3, 1, "Player 2");
+        setTrap(4, 0, "Player 2");
+        setTrap(2, 8, "Player 1");
+        setTrap(3, 7, "Player 1");
+        setTrap(4, 8, "Player 1");
 
         // Define home bases
         setHomeBase(3, 0, "Player 1");
@@ -63,12 +63,12 @@ public class Board {
         grid[x][y] = new Lake();
     }
 
-    /* 
+    
     private void setTrap(int x, int y, String playerName) {
-        grid[x][y] = new Tile(Tile.TRAP);
+        grid[x][y] = new Trap();
         grid[x][y].setOwner(new Player(playerName));
     }
-        */
+
 
 
     /**

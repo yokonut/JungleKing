@@ -27,7 +27,7 @@ public class Tile {
 
     private void loadImage() {
         try {
-            this.image = ImageIO.read(new File("images/" + type + ".png"))
+            this.image = ImageIO.read(new File("c:/users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/" + type + ".png"))
                         .getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             System.out.println("Error loading image for tile: " + type);
