@@ -33,10 +33,10 @@ public class Piece {
         this.y = y;
         this.owner = owner;
         this.board = board;
-        loadImage();
+        loadImage(this.name);
     }
 
-    private void loadImage() {
+    void loadImage(String name) {
         String filename = name.toLowerCase();
         
         // If the piece belongs to Player 2, use the "piece2.png" version
