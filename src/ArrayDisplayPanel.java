@@ -62,7 +62,7 @@ public class ArrayDisplayPanel extends JPanel {
 
                 boolean moved = game.tryMove(selectedPiece, newX, newY);
                 if (moved) {
-                    if (board.isLake(newX, newY)) {
+                    if (board.isLake(newX, newY) && selectedPiece.getName().equals("Rat")) {
                         selectedPiece.loadImage("ratwater");
                         waterSplashEffect.play();
                     }
