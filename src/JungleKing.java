@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 public class JungleKing {
     public static void main(String[] args) {
         // Create the main frame
+        MusicPlayer musicPlayer = new MusicPlayer();
+        musicPlayer.play();
         JFrame frame = new JFrame("Jungle King");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
