@@ -17,19 +17,24 @@ public class Game {
     private Player currentPlayer;
     private ArrayDisplayPanel displayPanel;
     private Map<String, Integer> pieceHierarchy;
+    private EatingSoundEffect eatingSoundEffect;
+    private MovingSoundEffect movingSoundEffect;
 
 
     /**
      * Constructs a new Game and initializes the game components.
      */
-    public Game(Board board, ArrayDisplayPanel displayPanel) {
+    public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect, MovingSoundEffect movingSoundEffect) {
         // Initialize Game components
         this.board = board;
         this.displayPanel = displayPanel;
+        this.eatingSoundEffect = eatingSoundEffect;
+        this.movingSoundEffect = movingSoundEffect;
 
         this.player1 = new Player("Player 1");
         this.player2 = new Player("Player 2");
         this.currentPlayer = player1;
+
      
       
         
@@ -94,10 +99,11 @@ public class Game {
 
     
     if (target != null && !board.isLake(newX, newY)) {
-        if (target.getOwner() == currentPlayer) return false; // CANNOT EAT ITS OWN PIECE
-        if (!canCapture(piece, target)) return false; // CANNOT CAPTURE PIECE THAT IS STRONGER
+        if (target.getOwner() == currentPlayer) return false;                    // CANNOT EAT ITS OWN PIECE
+        if (!canCapture(piece, target)) return false;                           // CANNOT CAPTURE PIECE THAT IS STRONGER
 
         System.out.println(piece.getName() + " captured " + target.getName()); 
+        eatingSoundEffect.play();
         board.movePiece(piece, newX, newY);
     } else {
         if (!piece.move(newX, newY)) return false;
@@ -111,6 +117,7 @@ public class Game {
     }
 
     switchPlayer();
+    movingSoundEffect.play();
     return true;
 }
 

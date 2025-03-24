@@ -15,7 +15,10 @@ public class JungleKing {
         // Create the board and display panel (but don’t show yet)
         Board board = new Board();
         ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board);
-        Game game = new Game(board, displayPanel);
+        EatingSoundEffect eatingSoundEffect = new EatingSoundEffect();
+        MovingSoundEffect movingSoundEffect = new MovingSoundEffect();
+        
+        Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect);
         displayPanel.setGame(game); // 🔗 Link panel to game
 
         // Create the menu panel
