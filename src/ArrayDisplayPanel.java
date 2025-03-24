@@ -66,6 +66,10 @@ public class ArrayDisplayPanel extends JPanel {
                         selectedPiece.loadImage("ratwater");
                         waterSplashEffect.play();
                     }
+                    else
+                    {
+                        selectedPiece.loadImage(selectedPiece.getName());
+                    }
                     selectedPiece = null;
                     updateBoard();
                 } else {
