@@ -20,10 +20,11 @@ public class JungleKing {
         EatingSoundEffect eatingSoundEffect = new EatingSoundEffect();
         MovingSoundEffect movingSoundEffect = new MovingSoundEffect();
         ErrorSoundEffect errorSoundEffect = new ErrorSoundEffect();
-        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect);
+        WaterSplashEffect waterSplashEffect = new WaterSplashEffect();
+        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect);
 
         Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1, player2);
-        displayPanel.setGame(game); // 🔗 Link panel to game
+        displayPanel.setGame(game);
 
         // Create the menu panel
         MenuPanel menuPanel = new MenuPanel();

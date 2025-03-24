@@ -148,27 +148,6 @@ public class Board {
     }
 
 
-    /**
-     * Gets a piece by its name and owner.
-     *
-     * @param name the name of the piece
-     * @param owner the owner of the piece
-     * @return the piece with the specified name and owner, or null if not found
-     */
-    public Piece getPieceByName(String name, Player owner) {
-        String lowerCaseName = name.toLowerCase();
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                Piece piece = grid[i][j].getPiece();
-                if (piece != null && piece.getName().toLowerCase().equals(lowerCaseName)
-                        && piece.getOwner().equals(owner)) {
-                    return piece;
-                }
-            }
-        }
-        return null;
-    }
-
 
     /**
      * Places a piece on the board.
@@ -249,26 +228,4 @@ public class Board {
     }
 
 
-    /**
-     * Prints the current state of the board.
-     */
-    public void printBoard() {
-        for (int i = 0; i < HEIGHT; i++) {
-            for (int j = 0; j < WIDTH; j++) {
-                Tile tile = grid[i][j];
-                if (tile.isOccupied()) {
-                    System.out.print(tile.getPiece().getName().charAt(0) + " ");
-                } else if (tile.getType() == "Lake") {
-                    System.out.print("~ ");
-                } else if (tile.getType() == "Trap") {
-                    System.out.print(". ");
-                } else if (tile.getType() == "Home") {
-                    System.out.print("H ");
-                } else {
-                    System.out.print(". ");
-                }
-            }
-            System.out.println();
-        }
-    }
 }
