@@ -242,6 +242,10 @@ public class Board {
         return false;
     }
 
+    public boolean isOutOfBounds(int x, int y) {
+        return x < 0 || x >= HEIGHT || y < 0 || y >= WIDTH;
+    }
+
 
     /**
      * Prints the current state of the board.

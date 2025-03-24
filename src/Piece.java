@@ -64,7 +64,7 @@ public class Piece {
      * @return true if the move is successful, false otherwise
      */
     public boolean move(int newX, int newY) {
-        if (board.isNormal(newX, newY) || board.isOpponentHomeBase(newX, newY, owner)) {
+        if (board.isNormal(newX, newY) || board.isOpponentHomeBase(newX, newY, owner) || board.isTrap(newX, newY)) {
             board.movePiece(this, newX, newY);
             return true;
         }

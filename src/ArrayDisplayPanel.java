@@ -1,14 +1,91 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.*;
 
 public class ArrayDisplayPanel extends JPanel {
     private final int WIDTH = 9;
     private final int HEIGHT = 7;
-    private Board board;
+    private final Board board;
+
+    private Piece selectedPiece; // Track selected piece
+    private Game game; // Let the panel communicate with the Game
 
     public ArrayDisplayPanel(Board board) {
         this.board = board;
         setPreferredSize(new Dimension(450, 350));
+
+        addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                handleClick(e.getX(), e.getY());
+            }
+        });
+
+        setFocusable(true);
+        requestFocusInWindow();
+
+        addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (selectedPiece == null)
+                    return;
+
+                int x = selectedPiece.getX();
+                int y = selectedPiece.getY();
+                int newX = x;
+                int newY = y;
+
+                switch (e.getKeyCode()) {
+                    case KeyEvent.VK_W:
+                        newX--;
+                        break;
+                    case KeyEvent.VK_S:
+                        newX++;
+                        break;
+                    case KeyEvent.VK_A:
+                        newY--;
+                        break;
+                    case KeyEvent.VK_D:
+                        newY++;
+                        break;
+                    default:
+                        return;
+                }
+
+                boolean moved = game.tryMove(selectedPiece, newX, newY);
+                if (moved) {
+                    selectedPiece = null;
+                    updateBoard();
+                } else {
+                    System.out.println("Invalid move.");
+                }
+            }
+        });
+
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
+    }
+
+    private void handleClick(int mouseX, int mouseY) {
+        int cellWidth = getWidth() / WIDTH;
+        int cellHeight = getHeight() / HEIGHT;
+
+        int col = mouseX / cellWidth;
+        int row = mouseY / cellHeight;
+
+        Tile clickedTile = board.getGrid()[row][col];
+        Piece clickedPiece = clickedTile.getPiece();
+
+        if (clickedPiece != null && clickedPiece.getOwner() == game.getCurrentPlayer()) {
+            selectedPiece = clickedPiece;
+            System.out.println("Selected: " + selectedPiece.getName());
+            repaint();
+            requestFocusInWindow(); // make sure keyboard input stays focused
+        } else {
+            System.out.println("Invalid selection. Click one of your pieces.");
+        }
     }
 
     @Override
@@ -20,31 +97,35 @@ public class ArrayDisplayPanel extends JPanel {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 Tile tile = board.getGrid()[i][j];
-
-                // Draw the tile image
                 Image tileImage = tile.getImage();
                 if (tileImage != null) {
                     g.drawImage(tileImage, j * cellWidth, i * cellHeight, this);
-                } 
-                
-                // Draw the piece on top of the tile
+                }
+
                 if (tile.isOccupied()) {
                     Piece piece = tile.getPiece();
                     Image pieceImage = piece.getImage();
-
                     if (pieceImage != null) {
                         g.drawImage(pieceImage, j * cellWidth, i * cellHeight, this);
                     }
                 }
 
-                // Draw grid lines
                 g.setColor(Color.BLACK);
                 g.drawRect(j * cellWidth, i * cellHeight, cellWidth, cellHeight);
             }
         }
+        String playerInfo = "Current Player: " + game.getCurrentPlayer().getName();
+        String selectionInfo = (selectedPiece != null)
+                ? "Selected: " + selectedPiece.getName()
+                : "No piece selected";
+
+        g.setColor(Color.RED);
+        g.setFont(new Font("Arial", Font.BOLD, 14));
+        g.drawString(playerInfo, 10, getHeight() - 25);
+        g.drawString(selectionInfo, 10, getHeight() - 10);
     }
 
     public void updateBoard() {
-        repaint();  // Refresh the GUI when the board updates
+        repaint();
     }
 }

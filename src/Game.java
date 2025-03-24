@@ -3,7 +3,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Scanner;
+
+
+import javax.swing.JOptionPane;
 
 
 /**
@@ -14,7 +16,7 @@ public class Game {
     private Board board;
     private Player player1, player2;
     private Player currentPlayer;
-    private Scanner scanner;
+
     private ArrayDisplayPanel displayPanel;
     private Map<String, Integer> pieceHierarchy;
 
@@ -27,9 +29,11 @@ public class Game {
         this.board = board;
         this.displayPanel = displayPanel;
 
-        player1 = new Player("Player 1");
-        player2 = new Player("Player 2");
-        scanner = new Scanner(System.in);
+        this.player1 = new Player("Player 1");
+        this.player2 = new Player("Player 2");
+        this.currentPlayer = player1;
+     
+      
         
 
         // Define piece hierarchy with HashMap
@@ -68,165 +72,54 @@ public class Game {
         }
 
         // Determine the first player
-        determineFirstPlayer();
+      
 
     }
 
 
-    /* Method to clear the screen
-    private void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
-    */
-
+  
 
     /**
      * Determines the first player by having each player select a piece.
      * The player who selects the stronger piece goes first.
      */
-    private void determineFirstPlayer() {
-
-        // Create a list of all pieces while initializing them
-        List<String> pieces = new ArrayList<>(pieceHierarchy.keySet());
-        Collections.shuffle(pieces);
-
-        for (int i = 0; i < pieces.size(); i++) {
-            System.out.print(i + "  ");
-        }
-        System.out.println();
-        for (int i = 0; i < pieces.size(); i++) {
-            System.out.print("X  ");
-        }
-        System.out.println();
-
-        // Player 1 selects a piece
-        System.out.println("Player 1, select an index:");
-        int player1Index = scanner.nextInt();
-
-        // Player 2 selects a piece
-        System.out.println("Player 2, select an index:");
-        int player2Index = scanner.nextInt();
-
-        // Reveal the selected pieces
-        String player1Piece = pieces.get(player1Index);
-        String player2Piece = pieces.get(player2Index);
-        System.out.println("Player 1 selected: " + player1Piece);
-        System.out.println("Player 2 selected: " + player2Piece);
-
-        int player1Rank = pieceHierarchy.get(player1Piece);
-        int player2Rank = pieceHierarchy.get(player2Piece);
-
-        // Determine the first player
-        if (player1Rank > player2Rank) {
-            currentPlayer = player1;
-        } else {
-            currentPlayer = player2;
-        }
-
-        System.out.println(currentPlayer.getName() + " goes first!!");
-    }
-
+  
     /**
      * Starts the game and handles the main game loop.
      */
-    public void start() {
-        Boolean isGameOver = false;
-        while (!isGameOver) {
-            
-            // print board
-            displayPanel.updateBoard();
-            board.printBoard();
-            if (currentPlayer == null) {
-                System.out.println("Error: Current player is null.");
-                return;
-            }
-            System.out.println(currentPlayer.getName() + "'s turn.");
-            System.out.print("Select piece by name: ");
+    
 
+    public boolean tryMove(Piece piece, int newX, int newY) {
+    if (board.isOutOfBounds(newX, newY)) return false;
 
-            String pieceName = scanner.next();
-            Piece piece = board.getPieceByName(pieceName, currentPlayer);
+    Piece target = board.getPiece(newX, newY);
 
-            if (piece == null || piece.getOwner() != currentPlayer) {
-                System.out.println("Invalid selection. Try again.");
-                continue;
-            }
+    
+    if (target != null && !board.isLake(newX, newY)) {
+        if (target.getOwner() == currentPlayer) return false; // CANNOT EAT ITS OWN PIECE
+        if (!canCapture(piece, target)) return false; // CANNOT CAPTURE PIECE THAT IS STRONGER
 
-            // get coordinates of the piece
-            int x = piece.getX();
-            int y = piece.getY();
-
-            // get the move direction
-            System.out.print("Move direction (WASD): ");
-            char move = scanner.next().toUpperCase().charAt(0);
-            int newX = x, newY = y;
-
-            switch (move) {
-                case 'W':
-                    newX--;
-                    break;
-                case 'S':
-                    newX++;
-                    break;
-                case 'A':
-                    newY--;
-                    break;
-                case 'D':
-                    newY++;
-                    break;
-                default:
-                    System.out.println("Invalid move. Use WASD.");
-                    continue;
-            }
-
-            // Check if the target tile is out of bounds
-            if (newX < 0 || newX >= 7 || newY < 0 || newY >= 9) {
-                System.out.println("Invalid move. Out of bounds.");
-                continue;
-            }
-
-            // Check if the target tile is occupied
-            Piece targetPiece = board.getPiece(newX, newY);
-            if (targetPiece != null && !board.isLake(newX,newY)) {                                                  // target tile is occupied by a piece
-                if (targetPiece.getOwner() == currentPlayer) {                                                      // target piece is owned by the current player
-                    System.out.println("You cannot capture your own piece. Try again.");
-                    continue;
-                } else if (canCapture(piece, targetPiece)) {                                                        // target piece can be captured                     
-                    System.out.println(piece.getName() + " captured " + targetPiece.getName() + "!");
-                    board.movePiece(piece, newX, newY);
-                    displayPanel.updateBoard();
-                    if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {                                      // check if the opponent's home base is captured
-                        System.out.println(currentPlayer.getName() + " wins!");
-                        isGameOver = true;
-                    }
-                    switchPlayer();
-                } else {
-                    System.out.println("Cannot capture this piece. Try again.");
-                }
-            }
-
-            // if the target tile is not occupied
-            else {
-                if (piece.move(newX, newY)) {       
-                    displayPanel.updateBoard();                                                                // move the piece to the target tile
-                    if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
-                        System.out.println(currentPlayer.getName() + " wins!");
-                        isGameOver = true;
-                        displayPanel.updateBoard();
-                    }
-                    switchPlayer();
-                } else {
-                    System.out.println("Invalid move. Try again.");
-                }
-            }
-            
-
-
-
-        }
-
+        System.out.println(piece.getName() + " captured " + target.getName()); 
+        board.movePiece(piece, newX, newY);
+    } else {
+        if (!piece.move(newX, newY)) return false;
     }
+
+    displayPanel.updateBoard();
+
+    if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
+        JOptionPane.showMessageDialog(displayPanel, currentPlayer.getName() + " wins!");
+        return true;
+    }
+
+    switchPlayer();
+    return true;
+}
+
+public Player getCurrentPlayer() {
+    return currentPlayer;
+}
+
 
     
 
