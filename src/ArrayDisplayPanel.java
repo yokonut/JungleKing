@@ -6,11 +6,13 @@ public class ArrayDisplayPanel extends JPanel {
     private final int WIDTH = 9;
     private final int HEIGHT = 7;
     private final Board board;
+    private final ErrorSoundEffect errorSoundEffect;
 
     private Piece selectedPiece; // Track selected piece
     private Game game; // Let the panel communicate with the Game
 
-    public ArrayDisplayPanel(Board board) {
+    public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect) {
+        this.errorSoundEffect = errorSoundEffect;
         this.board = board;
         setPreferredSize(new Dimension(450, 350));
 
@@ -89,6 +91,7 @@ public class ArrayDisplayPanel extends JPanel {
             requestFocusInWindow(); // make sure keyboard input stays focused
         } else {
             System.out.println("Invalid selection. Click one of your pieces.");
+            errorSoundEffect.play();
         }
     }
 

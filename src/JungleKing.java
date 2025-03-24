@@ -6,6 +6,9 @@ public class JungleKing {
     public static void main(String[] args) {
         // Create the main frame
         MusicPlayer musicPlayer = new MusicPlayer();
+        Player player1 = new Player("Player 1");
+        Player player2 = new Player("Player 2");
+        
         musicPlayer.play();
         JFrame frame = new JFrame("Jungle King");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -13,12 +16,13 @@ public class JungleKing {
         frame.setSize(450, 350); // Initial size for the menu
 
         // Create the board and display panel (but don’t show yet)
-        Board board = new Board();
-        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board);
+        Board board = new Board(player1, player2);
         EatingSoundEffect eatingSoundEffect = new EatingSoundEffect();
         MovingSoundEffect movingSoundEffect = new MovingSoundEffect();
-        
-        Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect);
+        ErrorSoundEffect errorSoundEffect = new ErrorSoundEffect();
+        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect);
+
+        Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1, player2);
         displayPanel.setGame(game); // 🔗 Link panel to game
 
         // Create the menu panel

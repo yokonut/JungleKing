@@ -5,13 +5,15 @@
 public class Board {
     private static  int WIDTH = 9;
     private static  int HEIGHT = 7;
+    private static Player player1;
+    private static Player player2;
     private Tile[][] grid;
 
 
     /**
      * Constructs a new Board and initializes the tiles.
      */
-    public Board() {
+    public Board(Player player1, Player player2) {
         grid = new Tile[HEIGHT][WIDTH];
 
         // Initialize board tiles
@@ -36,16 +38,16 @@ public class Board {
         setLake(5, 5);
 
        
-        setTrap(2, 0, "Player 2");
-        setTrap(3, 1, "Player 2");
-        setTrap(4, 0, "Player 2");
-        setTrap(2, 8, "Player 1");
-        setTrap(3, 7, "Player 1");
-        setTrap(4, 8, "Player 1");
+        setTrap(2, 0, player2);
+        setTrap(3, 1, player2);
+        setTrap(4, 0, player2);
+        setTrap(2, 8, player1);
+        setTrap(3, 7, player1);
+        setTrap(4, 8, player1);
 
         // Define home bases
-        setHomeBase(3, 0, "Player 1");
-        setHomeBase(3, 8, "Player 2");
+        setHomeBase(3, 0, player1);
+        setHomeBase(3, 8, player2);
     }
 
     public Tile[][] getGrid() {
@@ -64,9 +66,9 @@ public class Board {
     }
 
     
-    private void setTrap(int x, int y, String playerName) {
+    private void setTrap(int x, int y, Player player) {
         grid[x][y] = new Trap();
-        grid[x][y].setOwner(new Player(playerName));
+        grid[x][y].setOwner(player);
     }
 
 
@@ -78,9 +80,9 @@ public class Board {
      * @param y the y-coordinate of the tile
      * @param playerName the name of the player who owns the home base
      */    
-    private void setHomeBase(int x, int y, String playerName) {
+    private void setHomeBase(int x, int y, Player player) {
         grid[x][y] = new Home();
-        grid[x][y].setOwner(new Player(playerName));
+        grid[x][y].setOwner(player);
     }
 
 

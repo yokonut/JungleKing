@@ -19,20 +19,21 @@ public class Game {
     private Map<String, Integer> pieceHierarchy;
     private EatingSoundEffect eatingSoundEffect;
     private MovingSoundEffect movingSoundEffect;
+    private ErrorSoundEffect errorSoundEffect;
 
 
     /**
      * Constructs a new Game and initializes the game components.
      */
-    public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect, MovingSoundEffect movingSoundEffect) {
+    public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect, MovingSoundEffect movingSoundEffect, ErrorSoundEffect errorSoundEffect, Player player1, Player player2) {
         // Initialize Game components
         this.board = board;
         this.displayPanel = displayPanel;
         this.eatingSoundEffect = eatingSoundEffect;
         this.movingSoundEffect = movingSoundEffect;
-
-        this.player1 = new Player("Player 1");
-        this.player2 = new Player("Player 2");
+        this.errorSoundEffect = errorSoundEffect;
+        this.player1 = player1;
+        this.player2 = player2;
         this.currentPlayer = player1;
 
      
@@ -93,20 +94,39 @@ public class Game {
     
 
     public boolean tryMove(Piece piece, int newX, int newY) {
-    if (board.isOutOfBounds(newX, newY)) return false;
+    if (board.isOutOfBounds(newX, newY))
+    {
+        errorSoundEffect.play();
+        return false;
+    } 
 
     Piece target = board.getPiece(newX, newY);
 
     
     if (target != null && !board.isLake(newX, newY)) {
-        if (target.getOwner() == currentPlayer) return false;                    // CANNOT EAT ITS OWN PIECE
-        if (!canCapture(piece, target)) return false;                           // CANNOT CAPTURE PIECE THAT IS STRONGER
+        if (target.getOwner() == currentPlayer) 
+        {
+            errorSoundEffect.play();
+            return false;                    // CANNOT EAT ITS OWN PIECE
+        }
+        if (!canCapture(piece, target,board)) 
+        {
+            errorSoundEffect.play();
+            return false;                           // CANNOT CAPTURE PIECE THAT IS STRONGER
+        }
+            
 
         System.out.println(piece.getName() + " captured " + target.getName()); 
         eatingSoundEffect.play();
         board.movePiece(piece, newX, newY);
     } else {
-        if (!piece.move(newX, newY)) return false;
+        if (!piece.move(newX, newY))
+        {
+            errorSoundEffect.play();
+            return false;
+        } 
+            
+        
     }
 
     displayPanel.updateBoard();
@@ -132,12 +152,15 @@ public Player getCurrentPlayer() {
      * @param defender the defending piece
      * @return true if the attacker can capture the defender, false otherwise
      */
-    private boolean canCapture(Piece attacker, Piece defender) {
+    private boolean canCapture(Piece attacker, Piece defender, Board board) {
         if (attacker.getName().equals("Rat") && defender.getName().equals("Elephant")) {       // Special case: Rat can capture Elephant
             return true; 
         }
         if (attacker.getName().equals("Elephant") && defender.getName().equals("Rat")) {      // Special case: Elephant CAN'T capture Rat
             return false; // Special case: Rat can capture Elephant
+        }
+        if(board.isTrap(defender.getX(), defender.getY())) {
+            return true;
         }
         Integer attackerRank = pieceHierarchy.get(attacker.getName());
         Integer defenderRank = pieceHierarchy.get(defender.getName());
