@@ -74,7 +74,7 @@ public class JungleKing {
 
         instructionsButton.addActionListener((ActionEvent e) -> {
             JOptionPane.showMessageDialog(frame,
-                    "Instructions:\n- Click on the piece to select!\n- Use WASD to move\n- Avoid traps!",
+                    "Instructions:\n- Click on the piece to select!\n- Use WASD or ARROW KEYS to move\n- Avoid traps!",
                     "Instructions", JOptionPane.INFORMATION_MESSAGE);
         });
 
