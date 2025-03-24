@@ -87,7 +87,6 @@ public class Tile {
     }
 
     
-
     /**
      * Checks if the tile is occupied by a piece.
      *

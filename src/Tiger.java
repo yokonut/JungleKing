@@ -22,7 +22,7 @@ public class Tiger extends Piece {
                 board.movePiece(this, newX, newY - 3);
             }
             return true;
-        } else if (board.isNormal(newX, newY) || board.isOpponentHomeBase(newX, newY, owner)) {
+        } else if (board.isNormal(newX, newY) || board.isOpponentHomeBase(newX, newY, owner)|| board.isTrap(newX, newY)) {
             board.movePiece(this, newX, newY);
             return true;
         }

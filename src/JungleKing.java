@@ -25,13 +25,17 @@ public class JungleKing {
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
         title.setFont(new Font("Arial", Font.BOLD, 24));
 
+        JToggleButton musicButton = new JToggleButton("MUTE");
         JButton startButton = new JButton("Start Game");
         JButton instructionsButton = new JButton("Instructions");
         JButton exitButton = new JButton("Exit");
 
+
+       
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        musicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         menuPanel.add(title);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 30)));
@@ -40,11 +44,17 @@ public class JungleKing {
         menuPanel.add(instructionsButton);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         menuPanel.add(exitButton);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        menuPanel.add(musicButton);
+       
+
+       
 
         frame.add(menuPanel);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
-
         // Button actions
+
         startButton.addActionListener((ActionEvent e) -> {
             frame.remove(menuPanel);
             frame.add(displayPanel);
@@ -62,5 +72,15 @@ public class JungleKing {
         });
 
         exitButton.addActionListener((ActionEvent e) -> System.exit(0));
+
+        musicButton.addActionListener((ActionEvent e) -> {
+            if (musicButton.isSelected()) {
+                musicPlayer.stop();
+                musicButton.setText("UNMUTE");
+            } else {
+                musicPlayer.play();
+                musicButton.setText("MUTE");
+            }
+        });
     }
 }

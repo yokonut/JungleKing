@@ -15,7 +15,6 @@ public class Game {
     private Board board;
     private Player player1, player2;
     private Player currentPlayer;
-
     private ArrayDisplayPanel displayPanel;
     private Map<String, Integer> pieceHierarchy;
 

@@ -37,15 +37,19 @@ public class ArrayDisplayPanel extends JPanel {
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_W:
+                    case KeyEvent.VK_UP:
                         newX--;
                         break;
                     case KeyEvent.VK_S:
+                    case KeyEvent.VK_DOWN:
                         newX++;
                         break;
                     case KeyEvent.VK_A:
+                    case KeyEvent.VK_LEFT:
                         newY--;
                         break;
                     case KeyEvent.VK_D:
+                    case KeyEvent.VK_RIGHT:
                         newY++;
                         break;
                     default:
