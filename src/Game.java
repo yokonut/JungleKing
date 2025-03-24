@@ -20,18 +20,20 @@ public class Game {
     private EatingSoundEffect eatingSoundEffect;
     private MovingSoundEffect movingSoundEffect;
     private ErrorSoundEffect errorSoundEffect;
+    private WinSoundEffect winSoundEffect;
 
 
     /**
      * Constructs a new Game and initializes the game components.
      */
-    public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect, MovingSoundEffect movingSoundEffect, ErrorSoundEffect errorSoundEffect, Player player1, Player player2) {
+    public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect, MovingSoundEffect movingSoundEffect, ErrorSoundEffect errorSoundEffect, Player player1, Player player2, WinSoundEffect winSoundEffect) {
         // Initialize Game components
         this.board = board;
         this.displayPanel = displayPanel;
         this.eatingSoundEffect = eatingSoundEffect;
         this.movingSoundEffect = movingSoundEffect;
         this.errorSoundEffect = errorSoundEffect;
+        this.winSoundEffect = winSoundEffect;
         this.player1 = player1;
         this.player2 = player2;
         this.currentPlayer = player1;
@@ -132,6 +134,7 @@ public class Game {
     displayPanel.updateBoard();
 
     if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
+        winSoundEffect.play();
         JOptionPane.showMessageDialog(displayPanel, currentPlayer.getName() + " wins!");
         return true;
     }

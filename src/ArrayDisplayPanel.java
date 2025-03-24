@@ -7,7 +7,8 @@ public class ArrayDisplayPanel extends JPanel {
     private final int HEIGHT = 7;
     private final Board board;
     private final ErrorSoundEffect errorSoundEffect;
-    private final WaterSplashEffect waterSplashEffect;
+    //IDK why watersplash effect works without importing it
+   
 
     private Piece selectedPiece; // Track selected piece
     private Game game; // Let the panel communicate with the Game
@@ -15,7 +16,6 @@ public class ArrayDisplayPanel extends JPanel {
     public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect, WaterSplashEffect waterSplashEffect) {
         this.errorSoundEffect = errorSoundEffect;
         this.board = board;
-        this.waterSplashEffect = waterSplashEffect;
         setPreferredSize(new Dimension(450, 350));
 
         addMouseListener(new MouseAdapter() {
