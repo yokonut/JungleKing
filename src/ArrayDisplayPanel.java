@@ -119,10 +119,35 @@ public class ArrayDisplayPanel extends JPanel {
                 ? "Selected: " + selectedPiece.getName()
                 : "No piece selected";
 
-        g.setColor(Color.RED);
-        g.setFont(new Font("Arial", Font.BOLD, 14));
-        g.drawString(playerInfo, 10, getHeight() - 25);
-        g.drawString(selectionInfo, 10, getHeight() - 10);
+        // Coordinates
+        int playerInfoX = 10;
+        int playerInfoY = getHeight() - 25;
+
+        int selectionInfoX = 10;
+        int selectionInfoY = getHeight() - 10;
+
+        // Font
+        Font font = new Font("Arial", Font.BOLD, 14);
+        g.setFont(font);
+
+        // Draw outline by drawing text slightly offset in all directions
+        Graphics2D g2 = (Graphics2D) g;
+        g2.setColor(Color.RED);
+
+        // Outline for playerInfo
+        for (int dx = -1; dx <= 1; dx++) {
+            for (int dy = -1; dy <= 1; dy++) {
+                if (dx != 0 || dy != 0) {
+                    g2.drawString(playerInfo, playerInfoX + dx, playerInfoY + dy);
+                    g2.drawString(selectionInfo, selectionInfoX + dx, selectionInfoY + dy);
+                }
+            }
+        }
+
+        // Main (filled) text in white or black
+        g2.setColor(Color.WHITE);
+        g2.drawString(playerInfo, playerInfoX, playerInfoY);
+        g2.drawString(selectionInfo, selectionInfoX, selectionInfoY);
     }
 
     public void updateBoard() {

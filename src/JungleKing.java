@@ -17,8 +17,7 @@ public class JungleKing {
         displayPanel.setGame(game); // 🔗 Link panel to game
 
         // Create the menu panel
-        JPanel menuPanel = new JPanel();
-        menuPanel.setLayout(new BoxLayout(menuPanel, BoxLayout.Y_AXIS));
+        MenuPanel menuPanel = new MenuPanel();
 
         JLabel title = new JLabel("Welcome to Jungle King");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -56,7 +55,7 @@ public class JungleKing {
 
         instructionsButton.addActionListener((ActionEvent e) -> {
             JOptionPane.showMessageDialog(frame,
-                    "Instructions:\n- Use arrow keys to move.\n- Reach the goal to win!\n- Avoid traps!",
+                    "Instructions:\n- Click on the piece to select!\n- Use WASD to move\n- Avoid traps!",
                     "Instructions", JOptionPane.INFORMATION_MESSAGE);
         });
 
