@@ -11,7 +11,7 @@ public class EatingSoundEffect {
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
-            gainControl.setValue(-30.0f); // Reduce volume by 10 decibels
+            gainControl.setValue(-5.0f); // Reduce volume by 10 decibels
  
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
