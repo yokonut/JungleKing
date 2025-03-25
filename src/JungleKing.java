@@ -22,8 +22,9 @@ public class JungleKing {
         ErrorSoundEffect errorSoundEffect = new ErrorSoundEffect();
         WaterSplashEffect waterSplashEffect = new WaterSplashEffect();
         WinSoundEffect winSoundEffect = new WinSoundEffect();
+        SelectSoundEffect selectSoundEffect = new SelectSoundEffect();
         DecideFirstPlayer decideFirstPlayer = new DecideFirstPlayer();
-        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect);
+        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect, selectSoundEffect);
         Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1, player2, winSoundEffect);
         
         displayPanel.setGame(game);

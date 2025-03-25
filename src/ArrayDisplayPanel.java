@@ -7,14 +7,18 @@ public class ArrayDisplayPanel extends JPanel {
     private final int HEIGHT = 7;
     private final Board board;
     private final ErrorSoundEffect errorSoundEffect;
+    private final SelectSoundEffect selectSoundEffect;
     //IDK why watersplash effect works without importing it
+
    
 
     private Piece selectedPiece; // Track selected piece
     private Game game; // Let the panel communicate with the Game
 
-    public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect, WaterSplashEffect waterSplashEffect) {
+    public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect, WaterSplashEffect waterSplashEffect, SelectSoundEffect selectSoundEffect) {
         this.errorSoundEffect = errorSoundEffect;
+        this.selectSoundEffect = selectSoundEffect;
+        
         this.board = board;
         setPreferredSize(new Dimension(450, 350));
 
@@ -96,6 +100,7 @@ public class ArrayDisplayPanel extends JPanel {
 
         if (clickedPiece != null && clickedPiece.getOwner() == game.getCurrentPlayer()) {
             selectedPiece = clickedPiece;
+            selectSoundEffect.play();
             System.out.println("Selected: " + selectedPiece.getName());
             repaint();
             requestFocusInWindow(); // make sure keyboard input stays focused
