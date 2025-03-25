@@ -116,7 +116,7 @@ public class Game {
             errorSoundEffect.play();
             return false;                           // CANNOT CAPTURE PIECE THAT IS STRONGER
         }
-        if(piece.getName().equals("Rat") && target.getName().equals("Elephant")) {
+        if(piece.getName().equals("Rat") && board.isLake(piece.getX(), piece.getY()) && target.getName().equals("Elephant")) {
             System.out.println("Rat cannot capture Elephant while in water");
             errorSoundEffect.play();
             return false;                           // RAT CANT CAPTURE ELEPHANT WHEN IN WATER GOING OUT
