@@ -5,8 +5,6 @@
 public class Board {
     private static  int WIDTH = 9;
     private static  int HEIGHT = 7;
-    private static Player player1;
-    private static Player player2;
     private Tile[][] grid;
 
 
@@ -71,6 +69,7 @@ public class Board {
         grid[x][y].setOwner(player);
     }
 
+    
 
 
     /**
@@ -119,6 +118,11 @@ public class Board {
      */
     public boolean isTrap(int x, int y) {
         return grid[x][y].getType() == "Trap";
+    }
+
+
+    public boolean isOccupied(int x, int y) {
+        return grid[x][y].getPiece() != null;
     }
 
 

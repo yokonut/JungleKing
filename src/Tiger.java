@@ -3,7 +3,6 @@ public class Tiger extends Piece {
         super("Tiger", x, y, owner, board);
     }
 
-
     // Special move for Tiger
     @Override
     public boolean move(int newX, int newY) {
@@ -13,12 +12,32 @@ public class Tiger extends Piece {
                 return false;
             }
             if (x < newX) {
+                if(board.isOccupied(newX + 2, newY) && board.getPiece(newX + 2, newY).owner == owner) {
+                    System.out.println("Cannot jump over your own piece.");
+                    return false;
+                }
+                else
                 board.movePiece(this, newX + 2, newY);
             } else if (x > newX) {
+                if(board.isOccupied(newX - 2, newY) && board.getPiece(newX - 2, newY).owner == owner) {
+                    System.out.println("Cannot jump over your own piece.");
+                    return false;
+                }
+                else
                 board.movePiece(this, newX - 2, newY);
             } else if (y < newY) {
+                if(board.isOccupied(newX, newY + 3) && board.getPiece(newX, newY + 3).owner == owner) {
+                    System.out.println("Cannot jump over your own piece.");
+                    return false;
+                }
+                else
                 board.movePiece(this, newX, newY + 3);
             } else if (y > newY) {
+                if(board.isOccupied(newX, newY - 3) &&board.getPiece(newX, newY - 3).owner == owner) {
+                    System.out.println("Cannot jump over your own piece.");
+                    return false;
+                }
+                else
                 board.movePiece(this, newX, newY - 3);
             }
             return true;
