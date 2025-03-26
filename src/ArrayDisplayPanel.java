@@ -88,6 +88,8 @@ public class ArrayDisplayPanel extends JPanel {
         this.game = game;
     }
 
+   
+
     private void handleClick(int mouseX, int mouseY) {
         int cellWidth = getWidth() / WIDTH;
         int cellHeight = getHeight() / HEIGHT;

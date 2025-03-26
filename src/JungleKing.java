@@ -25,12 +25,12 @@ public class JungleKing {
         SelectSoundEffect selectSoundEffect = new SelectSoundEffect();
         DecideFirstPlayer decideFirstPlayer = new DecideFirstPlayer();
         ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect, selectSoundEffect);
-        Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1, player2, winSoundEffect);
+        MenuPanel menuPanel = new MenuPanel();
+        Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
         
         displayPanel.setGame(game);
 
         // Create the menu panel
-        MenuPanel menuPanel = new MenuPanel();
 
         JLabel title = new JLabel("Welcome to Jungle King");
         title.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -67,13 +67,23 @@ public class JungleKing {
         // Button actions
 
         startButton.addActionListener((ActionEvent e) -> {
+            // Create a fresh board and display panel
+            Board newBoard = new Board(player1, player2);
+            ArrayDisplayPanel newDisplayPanel = new ArrayDisplayPanel(newBoard, errorSoundEffect, waterSplashEffect, selectSoundEffect);
+            Game newGame = new Game(newBoard, newDisplayPanel, eatingSoundEffect, movingSoundEffect,
+                                    errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
+        
+            newDisplayPanel.setGame(newGame);
+        
+            // Swap panels
             frame.remove(menuPanel);
-            frame.add(displayPanel);
-            frame.pack(); // Resize frame to fit game board
+            frame.add(newDisplayPanel);
+            frame.pack();
             frame.setAlwaysOnTop(true);
-
-            displayPanel.setFocusable(true);
-            displayPanel.requestFocusInWindow();
+        
+            // Make it focusable for key input
+            newDisplayPanel.setFocusable(true);
+            newDisplayPanel.requestFocusInWindow();
         });
 
         instructionsButton.addActionListener((ActionEvent e) -> {

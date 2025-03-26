@@ -2,10 +2,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import javax.swing.JOptionPane;
-
 
 /**
  * The Game class represents the main game logic for the Jungle King game.
@@ -21,12 +21,15 @@ public class Game {
     private MovingSoundEffect movingSoundEffect;
     private ErrorSoundEffect errorSoundEffect;
     private WinSoundEffect winSoundEffect;
-
+    private JFrame frame;
+    private JPanel menuPanel;
 
     /**
      * Constructs a new Game and initializes the game components.
      */
-    public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect, MovingSoundEffect movingSoundEffect, ErrorSoundEffect errorSoundEffect, Player player1, Player player2, WinSoundEffect winSoundEffect) {
+    public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect,
+            MovingSoundEffect movingSoundEffect, ErrorSoundEffect errorSoundEffect, Player player1, Player player2,
+            WinSoundEffect winSoundEffect, JFrame frame, JPanel menuPanel) {
         // Initialize Game components
         this.board = board;
         this.displayPanel = displayPanel;
@@ -37,10 +40,8 @@ public class Game {
         this.player1 = player1;
         this.player2 = player2;
         this.currentPlayer = player1;
-
-     
-      
-        
+        this.frame = frame;
+        this.menuPanel = menuPanel;
 
         // Define piece hierarchy with HashMap
         pieceHierarchy = new HashMap<>();
@@ -78,82 +79,79 @@ public class Game {
         }
 
         // Determine the first player
-      
 
     }
-
-
-  
 
     /**
      * Determines the first player by having each player select a piece.
      * The player who selects the stronger piece goes first.
      */
-  
+
     /**
      * Starts the game and handles the main game loop.
      */
-    
 
     public boolean tryMove(Piece piece, int newX, int newY) {
-    if (board.isOutOfBounds(newX, newY))
-    {
-        errorSoundEffect.play();
-        return false;
-    } 
-
-    Piece target = board.getPiece(newX, newY);
-
-    
-    if (target != null && !board.isLake(newX, newY)) {
-        if (target.getOwner() == currentPlayer) 
-        {
-            errorSoundEffect.play();
-            return false;                    // CANNOT EAT ITS OWN PIECE
-        }
-        if (!canCapture(piece, target,board)) 
-        {
-            errorSoundEffect.play();
-            return false;                           // CANNOT CAPTURE PIECE THAT IS STRONGER
-        }
-        if(piece.getName().equals("Rat") && board.isLake(piece.getX(), piece.getY()) && target.getName().equals("Elephant")) {
-            System.out.println("Rat cannot capture Elephant while in water");
-            errorSoundEffect.play();
-            return false;                           // RAT CANT CAPTURE ELEPHANT WHEN IN WATER GOING OUT
-        }
-            
-
-        System.out.println(piece.getName() + " captured " + target.getName()); 
-        eatingSoundEffect.play();
-        board.movePiece(piece, newX, newY);
-    } else {
-        if (!piece.move(newX, newY))
-        {
+        if (board.isOutOfBounds(newX, newY)) {
             errorSoundEffect.play();
             return false;
-        } 
-            
-        
-    }
+        }
 
-    displayPanel.updateBoard();
+        Piece target = board.getPiece(newX, newY);
 
-    if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
-        winSoundEffect.play();
-        JOptionPane.showMessageDialog(displayPanel, currentPlayer.getName() + " wins!");
+        if (target != null && !board.isLake(newX, newY)) {
+            if (target.getOwner() == currentPlayer) {
+                errorSoundEffect.play();
+                return false; // CANNOT EAT ITS OWN PIECE
+            }
+            if (!canCapture(piece, target, board)) {
+                errorSoundEffect.play();
+                return false; // CANNOT CAPTURE PIECE THAT IS STRONGER
+            }
+            if (piece.getName().equals("Rat") && board.isLake(piece.getX(), piece.getY())
+                    && target.getName().equals("Elephant")) {
+                System.out.println("Rat cannot capture Elephant while in water");
+                errorSoundEffect.play();
+                return false; // RAT CANT CAPTURE ELEPHANT WHEN IN WATER GOING OUT
+            }
+
+            System.out.println(piece.getName() + " captured " + target.getName());
+            eatingSoundEffect.play();
+            board.movePiece(piece, newX, newY);
+        } else {
+            if (!piece.move(newX, newY)) {
+                errorSoundEffect.play();
+                return false;
+            }
+
+        }
+
+        displayPanel.updateBoard();
+
+        if (board.isOpponentHomeBase(newX, newY, currentPlayer)) {
+            winSoundEffect.play();
+            JOptionPane.showMessageDialog(displayPanel, currentPlayer.getName() + " wins!");
+
+            frame.remove(displayPanel);
+            frame.add(menuPanel);
+            frame.pack();
+            frame.setSize(450, 350); // Resize for menu
+            frame.setLocationRelativeTo(null);
+            frame.setAlwaysOnTop(true);
+
+            return true;
+        }
+
+        switchPlayer();
+        movingSoundEffect.play();
         return true;
     }
 
-    switchPlayer();
-    movingSoundEffect.play();
-    return true;
-}
+    public Player getCurrentPlayer() {
+        return currentPlayer;
+    }
 
-public Player getCurrentPlayer() {
-    return currentPlayer;
-}
-
-     /**
+    /**
      * Checks if the attacker can capture the defender.
      *
      * @param attacker the attacking piece
@@ -161,20 +159,21 @@ public Player getCurrentPlayer() {
      * @return true if the attacker can capture the defender, false otherwise
      */
     private boolean canCapture(Piece attacker, Piece defender, Board board) {
-        if (attacker.getName().equals("Rat") && defender.getName().equals("Elephant")) {       // Special case: Rat can capture Elephant
-            return true; 
+        if (attacker.getName().equals("Rat") && defender.getName().equals("Elephant")) { // Special case: Rat can
+                                                                                         // capture Elephant
+            return true;
         }
-        if (attacker.getName().equals("Elephant") && defender.getName().equals("Rat")) {      // Special case: Elephant CAN'T capture Rat
+        if (attacker.getName().equals("Elephant") && defender.getName().equals("Rat")) { // Special case: Elephant CAN'T
+                                                                                         // capture Rat
             return false; // Special case: Rat can capture Elephant
         }
-        if(board.isTrap(defender.getX(), defender.getY())) {
+        if (board.isTrap(defender.getX(), defender.getY())) {
             return true;
         }
         Integer attackerRank = pieceHierarchy.get(attacker.getName());
         Integer defenderRank = pieceHierarchy.get(defender.getName());
         return attackerRank >= defenderRank;
     }
-
 
     /**
      * Switches the current player.
