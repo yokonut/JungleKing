@@ -8,7 +8,7 @@ public class JungleKing {
         MusicPlayer musicPlayer = new MusicPlayer();
         Player player1 = new Player("Player 1");
         Player player2 = new Player("Player 2");
-        
+
         musicPlayer.play();
         JFrame frame = new JFrame("Jungle King");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,11 +23,13 @@ public class JungleKing {
         WaterSplashEffect waterSplashEffect = new WaterSplashEffect();
         WinSoundEffect winSoundEffect = new WinSoundEffect();
         SelectSoundEffect selectSoundEffect = new SelectSoundEffect();
-        DecideFirstPlayer decideFirstPlayer = new DecideFirstPlayer();
-        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect, selectSoundEffect);
+        ArrayDisplayPanel displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect,
+                selectSoundEffect);
         MenuPanel menuPanel = new MenuPanel();
-        Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
-        
+        Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1,
+                player2, winSoundEffect, frame, menuPanel);
+        DecideFirstPlayer decideFirstPlayer = new DecideFirstPlayer(selectSoundEffect, game, frame, displayPanel);
+
         displayPanel.setGame(game);
 
         // Create the menu panel
@@ -41,8 +43,6 @@ public class JungleKing {
         JButton instructionsButton = new JButton("Instructions");
         JButton exitButton = new JButton("Exit");
 
-
-       
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -57,9 +57,6 @@ public class JungleKing {
         menuPanel.add(exitButton);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         menuPanel.add(musicButton);
-       
-
-       
 
         frame.add(menuPanel);
         frame.setLocationRelativeTo(null);
@@ -69,26 +66,29 @@ public class JungleKing {
         startButton.addActionListener((ActionEvent e) -> {
             // Create a fresh board and display panel
             Board newBoard = new Board(player1, player2);
-            ArrayDisplayPanel newDisplayPanel = new ArrayDisplayPanel(newBoard, errorSoundEffect, waterSplashEffect, selectSoundEffect);
+            ArrayDisplayPanel newDisplayPanel = new ArrayDisplayPanel(newBoard, errorSoundEffect, waterSplashEffect,
+                    selectSoundEffect);
             Game newGame = new Game(newBoard, newDisplayPanel, eatingSoundEffect, movingSoundEffect,
-                                    errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
-        
+                    errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
+
             newDisplayPanel.setGame(newGame);
-        
+            DecideFirstPlayer newDecidePanel = new DecideFirstPlayer(selectSoundEffect, newGame, frame,
+                    newDisplayPanel);
+
             // Swap panels
-            frame.remove(menuPanel);
-            frame.add(displayPanel);
+            frame.getContentPane().removeAll();
+            frame.add(newDecidePanel);
             frame.pack();
             frame.setAlwaysOnTop(true);
-        
-            // Make it focusable for key input
+
+            // Focus input
             newDisplayPanel.setFocusable(true);
             newDisplayPanel.requestFocusInWindow();
         });
 
         instructionsButton.addActionListener((ActionEvent e) -> {
             JOptionPane.showMessageDialog(frame,
-                    "Instructions:\n- Click on the piece to select!\n- Use WASD or ARROW KEYS to move\n- Avoid traps!",
+                    "Instructions:\n- Click on the piece to select!\n- Use MOUSE, WASD or ARROW KEYS to move\n- Avoid traps!",
                     "Instructions", JOptionPane.INFORMATION_MESSAGE);
         });
 

@@ -91,6 +91,24 @@ public class Game {
      * Starts the game and handles the main game loop.
      */
 
+    public Map<String, Integer> getPieceHierarchy() {
+        return pieceHierarchy;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+    
+    public Player getPlayer2() {
+        return player2;
+    }
+    
+    public void setCurrentPlayer(Player player) {
+        this.currentPlayer = player;
+    }
+    
+    
+    
     public boolean tryMove(Piece piece, int newX, int newY) {
         if (board.isOutOfBounds(newX, newY)) {
             errorSoundEffect.play();
