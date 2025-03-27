@@ -8,17 +8,17 @@ public class ArrayDisplayPanel extends JPanel {
     private final Board board;
     private final ErrorSoundEffect errorSoundEffect;
     private final SelectSoundEffect selectSoundEffect;
-    //IDK why watersplash effect works without importing it
-
-   
+    private final WaterSplashEffect waterSplashEffect;
 
     private Piece selectedPiece; // Track selected piece
     private Game game; // Let the panel communicate with the Game
 
-    public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect, WaterSplashEffect waterSplashEffect, SelectSoundEffect selectSoundEffect) {
+    public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect, WaterSplashEffect waterSplashEffect,
+            SelectSoundEffect selectSoundEffect) {
         this.errorSoundEffect = errorSoundEffect;
         this.selectSoundEffect = selectSoundEffect;
-        
+        this.waterSplashEffect = waterSplashEffect;
+
         this.board = board;
         setPreferredSize(new Dimension(450, 350));
 
@@ -26,6 +26,7 @@ public class ArrayDisplayPanel extends JPanel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 handleClick(e.getX(), e.getY());
+
             }
         });
 
@@ -69,9 +70,7 @@ public class ArrayDisplayPanel extends JPanel {
                     if (board.isLake(newX, newY) && selectedPiece.getName().equals("Rat")) {
                         selectedPiece.loadImage("ratwater");
                         waterSplashEffect.play();
-                    }
-                    else
-                    {
+                    } else {
                         selectedPiece.loadImage(selectedPiece.getName());
                     }
                     selectedPiece = null;
@@ -88,8 +87,6 @@ public class ArrayDisplayPanel extends JPanel {
         this.game = game;
     }
 
-   
-
     private void handleClick(int mouseX, int mouseY) {
         int cellWidth = getWidth() / WIDTH;
         int cellHeight = getHeight() / HEIGHT;
@@ -100,16 +97,54 @@ public class ArrayDisplayPanel extends JPanel {
         Tile clickedTile = board.getGrid()[row][col];
         Piece clickedPiece = clickedTile.getPiece();
 
-        if (clickedPiece != null && clickedPiece.getOwner() == game.getCurrentPlayer()) {
+        if (selectedPiece == null) {
+
+            if (clickedPiece != null && clickedPiece.getOwner() == game.getCurrentPlayer()) {
+                selectedPiece = clickedPiece;
+                selectSoundEffect.play();
+                System.out.println("Selected: " + selectedPiece.getName());
+                repaint();
+                requestFocusInWindow(); // make sure keyboard input stays focused
+            } else {
+                System.out.println("Invalid selection. Click one of your pieces.");
+                errorSoundEffect.play();
+            }
+        } else if (clickedPiece != null && clickedPiece.getOwner() == game.getCurrentPlayer()) {
             selectedPiece = clickedPiece;
             selectSoundEffect.play();
-            System.out.println("Selected: " + selectedPiece.getName());
-            repaint();
-            requestFocusInWindow(); // make sure keyboard input stays focused
-        } else {
-            System.out.println("Invalid selection. Click one of your pieces.");
-            errorSoundEffect.play();
+            System.out.println("Selected" + selectedPiece.getName());
+            repaint(); 
         }
+        else {
+            // Trying to move selected piece
+            int newX = row;
+            int newY = col;
+
+            int dx = Math.abs(newX - selectedPiece.getX());
+            int dy = Math.abs(newY - selectedPiece.getY());
+
+            if ((dx + dy) == 1) {
+
+                boolean moved = game.tryMove(selectedPiece, newX, newY);
+                if (moved) {
+                    if (board.isLake(newX, newY) && selectedPiece.getName().equals("Rat")) {
+                        selectedPiece.loadImage("ratwater");
+                        waterSplashEffect.play();
+                    } else {
+                        selectedPiece.loadImage(selectedPiece.getName());
+                    }
+                    selectedPiece = null;
+                    updateBoard();
+                } else {
+                    System.out.println("Invalid move.");
+                    errorSoundEffect.play();
+                }
+            } else {
+                System.out.println("You can only move one step.");
+                errorSoundEffect.play();
+            }
+        } 
+
     }
 
     @Override
