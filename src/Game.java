@@ -83,32 +83,48 @@ public class Game {
     }
 
     /**
-     * Determines the first player by having each player select a piece.
-     * The player who selects the stronger piece goes first.
+     * Returns the piece hierarchy.
+     *
+     * @return a map representing the piece hierarchy
      */
-
-    /**
-     * Starts the game and handles the main game loop.
-     */
-
     public Map<String, Integer> getPieceHierarchy() {
         return pieceHierarchy;
     }
 
+    /**
+     * Returns player 1.
+     * @return
+     */
     public Player getPlayer1() {
         return player1;
     }
     
+    /**
+     * Returns player 2.
+     * @return
+     */
     public Player getPlayer2() {
         return player2;
     }
     
+    /**
+     * Sets the current player.
+     *
+     * @return the current player
+     */
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
     }
     
     
-    
+    /**
+     * Attempts to move a piece to a new position on the board.
+     *
+     * @param piece the piece to move
+     * @param newX  the new x-coordinate
+     * @param newY  the new y-coordinate
+     * @return true if the move was successful, false otherwise
+     */
     public boolean tryMove(Piece piece, int newX, int newY) {
         if (board.isOutOfBounds(newX, newY)) {
             errorSoundEffect.play();
@@ -165,6 +181,12 @@ public class Game {
         return true;
     }
 
+
+    /**
+     * Returns the current player.
+     *
+     * @return the current player
+     */
     public Player getCurrentPlayer() {
         return currentPlayer;
     }

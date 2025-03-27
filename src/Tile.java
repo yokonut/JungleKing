@@ -25,6 +25,9 @@ public class Tile {
     }
 
 
+    /**
+     * Loads the image for the tile based on its type.
+     */
     private void loadImage() {
         try {
             this.image = ImageIO.read(new File("c:/users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/" + type + ".png"))
@@ -34,6 +37,12 @@ public class Tile {
         }
     }
 
+
+    /**
+     * Gets the image of the tile.
+     *
+     * @return the image of the tile
+     */
     public Image getImage() {
         return image;
     }

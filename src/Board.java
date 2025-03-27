@@ -64,6 +64,13 @@ public class Board {
     }
 
     
+    /**
+     * Sets a tile as a trap.
+     *
+     * @param x the x-coordinate of the tile
+     * @param y the y-coordinate of the tile
+     * @param playerName the name of the player who owns the trap
+     */
     private void setTrap(int x, int y, Player player) {
         grid[x][y] = new Trap();
         grid[x][y].setOwner(player);
@@ -120,7 +127,13 @@ public class Board {
         return grid[x][y].getType() == "Trap";
     }
 
-
+    /**
+     * Checks if a tile is occupied by a piece.
+     *
+     * @param x the x-coordinate of the tile
+     * @param y the y-coordinate of the tile
+     * @return true if the tile is occupied, false otherwise
+     */
     public boolean isOccupied(int x, int y) {
         return grid[x][y].getPiece() != null;
     }
@@ -227,6 +240,13 @@ public class Board {
         return false;
     }
 
+    /**
+     * Checks if the coordinates are out of bounds.
+     *
+     * @param x the x-coordinate to check
+     * @param y the y-coordinate to check
+     * @return true if the coordinates are out of bounds, false otherwise
+     */
     public boolean isOutOfBounds(int x, int y) {
         return x < 0 || x >= HEIGHT || y < 0 || y >= WIDTH;
     }

@@ -2,6 +2,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+
+
 public class ArrayDisplayPanel extends JPanel {
     private final int WIDTH = 9;
     private final int HEIGHT = 7;
@@ -13,6 +15,15 @@ public class ArrayDisplayPanel extends JPanel {
     private Piece selectedPiece; // Track selected piece
     private Game game; // Let the panel communicate with the Game
 
+
+    /**
+     * Constructs a new ArrayDisplayPanel and initializes the board and sound effects.
+     *
+     * @param board             The game board to be displayed.
+     * @param errorSoundEffect  The sound effect for errors.
+     * @param waterSplashEffect The sound effect for water splash.
+     * @param selectSoundEffect The sound effect for selection.
+     */
     public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect, WaterSplashEffect waterSplashEffect,
             SelectSoundEffect selectSoundEffect) {
         this.errorSoundEffect = errorSoundEffect;
@@ -83,10 +94,20 @@ public class ArrayDisplayPanel extends JPanel {
 
     }
 
+    /**
+     * Sets the game instance for the panel.
+     *
+     * @param game The game instance to be set.
+     */
     public void setGame(Game game) {
         this.game = game;
     }
 
+    /**
+     * Handles mouse click events to select or move pieces on the board.
+     * @param mouseX
+     * @param mouseY
+     */
     private void handleClick(int mouseX, int mouseY) {
         int cellWidth = getWidth() / WIDTH;
         int cellHeight = getHeight() / HEIGHT;
@@ -147,6 +168,12 @@ public class ArrayDisplayPanel extends JPanel {
 
     }
 
+
+    /**
+     * Paints the components of the panel, including the board and pieces.
+     *
+     * @param g The Graphics object used for painting.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -209,6 +236,10 @@ public class ArrayDisplayPanel extends JPanel {
         g2.drawString(selectionInfo, selectionInfoX, selectionInfoY);
     }
 
+
+    /**
+     * Updates the board by repainting the panel.
+     */
     public void updateBoard() {
         repaint();
     }

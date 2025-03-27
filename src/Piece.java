@@ -36,6 +36,12 @@ public class Piece {
         loadImage(this.name);
     }
 
+
+    /**
+     * Loads the image for the piece based on its name and owner.
+     *
+     * @param name the name of the piece
+     */
     void loadImage(String name) {
         String filename = name.toLowerCase();
         
@@ -52,6 +58,11 @@ public class Piece {
         }
     }
 
+    /**
+     * Gets the image of the piece.
+     *
+     * @return the image of the piece
+     */
     public Image getImage() {
         return image;
     }

@@ -24,6 +24,15 @@ public class DecideFirstPlayer extends JPanel {
     private final String[] boxAssignments = new String[numBoxes];
     private final String[] playerSelections = new String[2];
 
+
+    /**
+     * Constructs a new DecideFirstPlayer panel and initializes the game components.
+     *
+     * @param selectSoundEffect The sound effect for selection.
+     * @param game              The game instance.
+     * @param frame             The main application frame.
+     * @param displayPanel      The display panel for the game board.
+     */
     public DecideFirstPlayer(SelectSoundEffect selectSoundEffect, Game game, JFrame frame, ArrayDisplayPanel displayPanel) {
         this.selectSoundEffect = selectSoundEffect;
         this.game = game;
@@ -50,6 +59,13 @@ public class DecideFirstPlayer extends JPanel {
         });
     }
 
+
+    /**
+     * Handles mouse click events to select a box and assign the corresponding animal piece.
+     *
+     * @param mouseX The x-coordinate of the mouse click.
+     * @param mouseY The y-coordinate of the mouse click.
+     */
     private void handleClick(int mouseX, int mouseY) {
         if (selectionComplete)
             return;
@@ -90,6 +106,9 @@ public class DecideFirstPlayer extends JPanel {
         }
     }
 
+    /**
+     * Decides the winner based on the selected animal pieces and sets the current player and displays the result.
+     */
     private void decideWinner() {
         String piece1 = playerSelections[0];
         String piece2 = playerSelections[1];
@@ -116,6 +135,10 @@ public class DecideFirstPlayer extends JPanel {
 
     }
 
+
+    /**
+     * Resets the deciding game for a new round.
+     */
     public void reset() {
         currentPlayerTurn = 1;
         selectionComplete = false;
