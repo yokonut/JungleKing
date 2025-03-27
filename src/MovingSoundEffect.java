@@ -15,13 +15,9 @@ public class MovingSoundEffect {
  
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.out.println("Error playing music: " + e.getMessage());
+            System.out.println("Error playing sound: " + e.getMessage());
         }
     }
 
-    public void stop() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-        }
-    }
+   
 }

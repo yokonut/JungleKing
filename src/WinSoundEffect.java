@@ -15,13 +15,7 @@ public class WinSoundEffect {
  
             clip.start();
         } catch (UnsupportedAudioFileException | IOException | LineUnavailableException e) {
-            System.out.println("Error playing music: " + e.getMessage());
-        }
-    }
-
-    public void stop() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
+            System.out.println("Error playing sound: " + e.getMessage());
         }
     }
 }
