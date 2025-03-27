@@ -77,7 +77,7 @@ public class JungleKing {
         
             // Swap panels
             frame.remove(menuPanel);
-            frame.add(newDisplayPanel);
+            frame.add(displayPanel);
             frame.pack();
             frame.setAlwaysOnTop(true);
         

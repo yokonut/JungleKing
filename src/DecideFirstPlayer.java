@@ -43,8 +43,8 @@ public class DecideFirstPlayer extends JPanel {
 
         // Load images
         Image background = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/background.png").getImage();
-        Image mystery = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/mystery.png").getImage();
-        Image selected = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/selected1.png").getImage();
+        Image mystery = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/box.png").getImage();
+        Image selected = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/box1.png").getImage();
 
         // Draw background
         g.drawImage(background, 0, 0, getWidth(), getHeight(), null);
