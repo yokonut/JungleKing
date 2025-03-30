@@ -3,5 +3,4 @@ public class Wolf extends Piece {
         super("Wolf", x, y, owner, board);
     }
 
-   
 }

@@ -24,7 +24,6 @@ public class DecideFirstPlayer extends JPanel {
     private final String[] boxAssignments = new String[numBoxes];
     private final String[] playerSelections = new String[2];
 
-
     /**
      * Constructs a new DecideFirstPlayer panel and initializes the game components.
      *
@@ -33,7 +32,8 @@ public class DecideFirstPlayer extends JPanel {
      * @param frame             The main application frame.
      * @param displayPanel      The display panel for the game board.
      */
-    public DecideFirstPlayer(SelectSoundEffect selectSoundEffect, Game game, JFrame frame, ArrayDisplayPanel displayPanel) {
+    public DecideFirstPlayer(SelectSoundEffect selectSoundEffect, Game game, JFrame frame,
+            ArrayDisplayPanel displayPanel) {
         this.selectSoundEffect = selectSoundEffect;
         this.game = game;
         this.pieceHierarchy = game.getPieceHierarchy();
@@ -59,9 +59,9 @@ public class DecideFirstPlayer extends JPanel {
         });
     }
 
-
     /**
-     * Handles mouse click events to select a box and assign the corresponding animal piece.
+     * Handles mouse click events to select a box and assign the corresponding
+     * animal piece.
      *
      * @param mouseX The x-coordinate of the mouse click.
      * @param mouseY The y-coordinate of the mouse click.
@@ -107,7 +107,8 @@ public class DecideFirstPlayer extends JPanel {
     }
 
     /**
-     * Decides the winner based on the selected animal pieces and sets the current player and displays the result.
+     * Decides the winner based on the selected animal pieces and sets the current
+     * player and displays the result.
      */
     private void decideWinner() {
         String piece1 = playerSelections[0];
@@ -135,7 +136,6 @@ public class DecideFirstPlayer extends JPanel {
 
     }
 
-
     /**
      * Resets the deciding game for a new round.
      */
@@ -143,31 +143,41 @@ public class DecideFirstPlayer extends JPanel {
         currentPlayerTurn = 1;
         selectionComplete = false;
         selectedBoxIndex = -1;
-    
+
         // Clear player picks
         playerSelections[0] = null;
         playerSelections[1] = null;
-    
+
         // Shuffle and reassign animal pieces
         List<String> shuffled = new ArrayList<>(Arrays.asList(animalPieces));
         Collections.shuffle(shuffled);
         for (int i = 0; i < numBoxes; i++) {
             boxAssignments[i] = shuffled.get(i);
         }
-    
+
         repaint();
     }
-    
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         // Load images
-        Image background = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/background.png")
-                .getImage();
-        Image mystery = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/box.png").getImage();
-        Image selected = new ImageIcon("C:/Users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/box1.png").getImage();
+        /*
+         * Image background = new ImageIcon(
+         * "C:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-IMAGES/background.png")
+         * .getImage();
+         * Image mystery = new
+         * ImageIcon("C:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-IMAGES/box.png").
+         * getImage();
+         * Image selected = new
+         * ImageIcon("c:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-IMAGES/box1.png").
+         * getImage();
+         */
+
+        Image background = new ImageIcon(getClass().getResource("/images/background.png")).getImage();
+        Image mystery = new ImageIcon(getClass().getResource("/images/box.png")).getImage();
+        Image selected = new ImageIcon(getClass().getResource("/images/box1.png")).getImage();
 
         // Draw background
         g.drawImage(background, 0, 0, getWidth(), getHeight(), null);

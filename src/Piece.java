@@ -36,7 +36,6 @@ public class Piece {
         loadImage(this.name);
     }
 
-
     /**
      * Loads the image for the piece based on its name and owner.
      *
@@ -44,15 +43,23 @@ public class Piece {
      */
     void loadImage(String name) {
         String filename = name.toLowerCase();
-        
+
         // If the piece belongs to Player 2, use the "piece2.png" version
         if (owner.getName().equals("Player 2")) {
             filename += "2"; // Example: "cat2.png", "elephant2.png"
         }
 
         try {
-            this.image = ImageIO.read(new File("c:/users/yohan/Desktop/JUNGLE KING/JungleKing/src/images/" + filename + ".png"))
-                        .getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+            /*
+             * this.image = ImageIO
+             * .read(new File("C:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-IMAGES/" +
+             * filename + ".png"))
+             * .getScaledInstance(50, 50, Image.SCALE_SMOOTH);
+             */
+
+            this.image = ImageIO
+                    .read(getClass().getResource("/images/" + filename + ".png"))
+                    .getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         } catch (IOException e) {
             System.out.println("Error loading image for " + filename);
         }

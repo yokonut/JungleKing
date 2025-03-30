@@ -40,10 +40,12 @@ public class JungleKing {
 
         JToggleButton musicButton = new JToggleButton("MUTE");
         JButton startButton = new JButton("Start Game");
+        JButton loadButton = new JButton("Load Game"); // n
         JButton instructionsButton = new JButton("Instructions");
         JButton exitButton = new JButton("Exit");
 
         startButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        loadButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         instructionsButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         exitButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         musicButton.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -51,6 +53,8 @@ public class JungleKing {
         menuPanel.add(title);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 30)));
         menuPanel.add(startButton);
+        menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        menuPanel.add(loadButton); // NEW
         menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
         menuPanel.add(instructionsButton);
         menuPanel.add(Box.createRigidArea(new Dimension(0, 10)));
@@ -84,6 +88,12 @@ public class JungleKing {
             // Focus input
             newDisplayPanel.setFocusable(true);
             newDisplayPanel.requestFocusInWindow();
+        });
+
+        loadButton.addActionListener((ActionEvent e) -> {
+            // Load game logic here
+            JOptionPane.showMessageDialog(frame, "Load Game feature is not implemented yet.", "Load Game",
+                    JOptionPane.INFORMATION_MESSAGE);
         });
 
         instructionsButton.addActionListener((ActionEvent e) -> {

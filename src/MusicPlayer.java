@@ -7,7 +7,8 @@ public class MusicPlayer {
 
     public void play() {
         try {
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File("c:/users/yohan/Desktop/JUNGLE KING/JungleKing/src/sounds/music.wav"));
+            AudioInputStream audioStream = AudioSystem
+                    .getAudioInputStream(getClass().getResource("/sounds/music.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.loop(Clip.LOOP_CONTINUOUSLY); // loop forever
