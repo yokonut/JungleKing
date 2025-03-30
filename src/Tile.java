@@ -1,14 +1,18 @@
 import java.awt.Image;
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.Serializable;
+
 import javax.imageio.ImageIO;
 
-public class Tile {
+public class Tile implements Serializable {
+  private static final long serialVersionUID = 1L;
 
   private String type;
   private Piece piece;
   private Player owner;
-  private Image image;
+  private transient Image image;
 
   /**
    * Constructs a new Tile with the specified type.
@@ -112,4 +116,13 @@ public class Tile {
   public boolean isOccupied() {
     return piece != null;
   }
+
+  /**
+   * Custom deserialization to reload the transient image field.
+   */
+  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    in.defaultReadObject(); // Deserialize non-transient fields
+    loadImage(); // Reload the image after deserialization
+  }
+
 }

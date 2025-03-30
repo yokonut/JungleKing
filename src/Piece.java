@@ -1,6 +1,8 @@
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
+
 import javax.imageio.ImageIO;
 
 /**
@@ -8,12 +10,14 @@ import javax.imageio.ImageIO;
  * Each piece has a name, coordinates (x, y), an owner (Player), and a reference
  * to the game board.
  */
-public class Piece {
+public class Piece implements Serializable {
+    private static final long serialVersionUID = 1L;
+
     protected String name;
     protected int x, y;
     protected Player owner;
     protected Board board;
-    protected Image image;
+    protected transient Image image;
 
     /**
      * Constructs a new Piece with the specified name, coordinates, owner, and
@@ -124,4 +128,13 @@ public class Piece {
     public int getY() {
         return y;
     }
+
+    /**
+     * Custom deserialization to reload transient fields.
+     */
+    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // Deserialize non-transient fields
+        loadImage(this.name); // Reload the image
+    }
+
 }

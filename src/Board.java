@@ -1,12 +1,16 @@
+import java.io.Serializable;
+
 /**
  * The Board class represents the game board in the Jungle King game.
  * It manages the tiles, pieces, and game rules related to the board.
  */
-public class Board {
-    private static  int WIDTH = 9;
-    private static  int HEIGHT = 7;
-    private Tile[][] grid;
 
+public class Board implements Serializable {
+    private static final long serialVersionUID = 1L; // Added for serialization
+
+    private static int WIDTH = 9;
+    private static int HEIGHT = 7;
+    private Tile[][] grid;
 
     /**
      * Constructs a new Board and initializes the tiles.
@@ -35,7 +39,6 @@ public class Board {
         setLake(2, 5);
         setLake(5, 5);
 
-       
         setTrap(2, 0, player2);
         setTrap(3, 1, player2);
         setTrap(4, 0, player2);
@@ -52,7 +55,6 @@ public class Board {
         return grid;
     }
 
-
     /**
      * Sets a tile as a lake.
      *
@@ -63,12 +65,11 @@ public class Board {
         grid[x][y] = new Lake();
     }
 
-    
     /**
      * Sets a tile as a trap.
      *
-     * @param x the x-coordinate of the tile
-     * @param y the y-coordinate of the tile
+     * @param x          the x-coordinate of the tile
+     * @param y          the y-coordinate of the tile
      * @param playerName the name of the player who owns the trap
      */
     private void setTrap(int x, int y, Player player) {
@@ -76,21 +77,17 @@ public class Board {
         grid[x][y].setOwner(player);
     }
 
-    
-
-
     /**
      * Sets a tile as a home base.
      *
-     * @param x the x-coordinate of the tile
-     * @param y the y-coordinate of the tile
+     * @param x          the x-coordinate of the tile
+     * @param y          the y-coordinate of the tile
      * @param playerName the name of the player who owns the home base
-     */    
+     */
     private void setHomeBase(int x, int y, Player player) {
         grid[x][y] = new Home();
         grid[x][y].setOwner(player);
     }
-
 
     /**
      * Checks if a tile is a normal tile.
@@ -103,7 +100,6 @@ public class Board {
         return grid[x][y].getType() == "Normal";
     }
 
-
     /**
      * Checks if a tile is a lake.
      *
@@ -114,7 +110,6 @@ public class Board {
     public boolean isLake(int x, int y) {
         return grid[x][y].getType() == "Lake";
     }
-
 
     /**
      * Checks if a tile is a trap.
@@ -138,12 +133,11 @@ public class Board {
         return grid[x][y].getPiece() != null;
     }
 
-
     /**
      * Checks if a tile is the opponent's home base.
      *
-     * @param x the x-coordinate of the tile
-     * @param y the y-coordinate of the tile
+     * @param x      the x-coordinate of the tile
+     * @param y      the y-coordinate of the tile
      * @param player the player to check against
      * @return true if the tile is the opponent's home base, false otherwise
      */
@@ -151,7 +145,6 @@ public class Board {
         Tile tile = grid[x][y];
         return tile.getType() == "Home" && !tile.getOwner().equals(playerName);
     }
-
 
     /**
      * Gets the piece on a tile.
@@ -164,8 +157,6 @@ public class Board {
         return grid[x][y].getPiece();
     }
 
-
-
     /**
      * Places a piece on the board.
      *
@@ -175,13 +166,12 @@ public class Board {
         grid[piece.getX()][piece.getY()].setPiece(piece); // set the piece to the tile
     }
 
-
     /**
      * Moves a piece to a new location on the board.
      *
      * @param piece the piece to move
-     * @param newX the new x-coordinate of the piece
-     * @param newY the new y-coordinate of the piece
+     * @param newX  the new x-coordinate of the piece
+     * @param newY  the new y-coordinate of the piece
      */
     public void movePiece(Piece piece, int newX, int newY) {
         grid[piece.getX()][piece.getY()].setPiece(null); // make the old tile empty
@@ -190,12 +180,11 @@ public class Board {
         grid[newX][newY].setPiece(piece); // set new tile to the piece
     }
 
-
     /**
      * Checks if there is a rat in the lake path between two coordinates.
      *
-     * @param x the starting x-coordinate
-     * @param y the starting y-coordinate
+     * @param x    the starting x-coordinate
+     * @param y    the starting y-coordinate
      * @param newX the ending x-coordinate
      * @param newY the ending y-coordinate
      * @return true if there is a rat in the lake path, false otherwise
@@ -220,7 +209,7 @@ public class Board {
             }
         }
 
-        else if(y < newY || y > newY) {
+        else if (y < newY || y > newY) {
             int n = 3;
 
             if (y < newY) {
@@ -250,6 +239,5 @@ public class Board {
     public boolean isOutOfBounds(int x, int y) {
         return x < 0 || x >= HEIGHT || y < 0 || y >= WIDTH;
     }
-
 
 }

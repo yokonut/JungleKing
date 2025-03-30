@@ -54,7 +54,11 @@ public class JungleKing {
     MenuPanel menuPanel = new MenuPanel();
     Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1,
         player2, winSoundEffect, frame, menuPanel);
-    DecideFirstPlayer decideFirstPlayer = new DecideFirstPlayer(selectSoundEffect, game, frame, displayPanel);
+    /*
+     * i dont think we used that
+     */
+    // DecideFirstPlayer decideFirstPlayer = new
+    // DecideFirstPlayer(selectSoundEffect, game, frame, displayPanel);
 
     displayPanel.setGame(game);
 
@@ -125,9 +129,25 @@ public class JungleKing {
     });
 
     loadButton.addActionListener((ActionEvent e) -> {
-      // Load game logic here
-      JOptionPane.showMessageDialog(frame, "Load Game feature is not implemented yet.", "Load Game",
-          JOptionPane.INFORMATION_MESSAGE);
+      String fileName = "savegame.dat"; // Default file name for the saved game
+      Game loadedGame = Game.loadGame(fileName); // Call the loadGame method to deserialize the game
+
+      if (loadedGame != null) {
+        JOptionPane.showMessageDialog(frame, "Game loaded successfully!", "Load Game", JOptionPane.INFORMATION_MESSAGE);
+
+        // Update the current game state with the loaded game
+        frame.getContentPane().removeAll(); // Clear the current frame
+        frame.add(loadedGame.displayPanel); // Add the loaded game's display panel
+        frame.setJMenuBar(menuBar); // Reattach the menu bar
+        frame.revalidate();
+        frame.repaint();
+
+        // Restore focus to the display panel
+        loadedGame.displayPanel.setFocusable(true);
+        loadedGame.displayPanel.requestFocusInWindow();
+      } else {
+        JOptionPane.showMessageDialog(frame, "Failed to load game.", "Load Game", JOptionPane.ERROR_MESSAGE);
+      }
     });
 
     instructionsButton.addActionListener((ActionEvent e) -> {
@@ -152,20 +172,40 @@ public class JungleKing {
 
     // Menu item actions
     newGameItem.addActionListener((ActionEvent e) -> {
-      /*
-       * ADD LOGIC HERE
-       */
+      // Create a fresh board and display panel
+      Board newBoard = new Board(player1, player2);
+      ArrayDisplayPanel newDisplayPanel = new ArrayDisplayPanel(newBoard, errorSoundEffect, waterSplashEffect,
+          selectSoundEffect);
+      Game newGame = new Game(newBoard, newDisplayPanel, eatingSoundEffect, movingSoundEffect,
+          errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
 
-      JOptionPane.showMessageDialog(frame, "New Game feature is not implemented yet.", "New Game",
-          JOptionPane.INFORMATION_MESSAGE);
+      newDisplayPanel.setGame(newGame);
+      DecideFirstPlayer newDecidePanel = new DecideFirstPlayer(selectSoundEffect, newGame, frame,
+          newDisplayPanel);
+
+      // Swap panels
+      frame.getContentPane().removeAll();
+      frame.add(newDecidePanel);
+      frame.pack();
+      frame.setAlwaysOnTop(true);
+      // Set the menu bar to the frame
+      frame.setJMenuBar(menuBar);
+
+      // Focus input
+      newDisplayPanel.setFocusable(true);
+      newDisplayPanel.requestFocusInWindow();
     });
 
     saveGameIteam.addActionListener((ActionEvent e) -> {
-      /*
-       * ADD LOGIC HERE
-       */
-      JOptionPane.showMessageDialog(frame, "Save Game feature is not implemented yet.", "Save Game",
-          JOptionPane.INFORMATION_MESSAGE);
+      String fileName = "savegame.dat"; // Default file name
+      try {
+        game.saveGame(fileName); // Call the saveGame method
+        JOptionPane.showMessageDialog(frame, "Game saved successfully!", "Save Game", JOptionPane.INFORMATION_MESSAGE);
+      } catch (Exception ex) {
+        JOptionPane.showMessageDialog(frame, "Error saving game: " + ex.getMessage(), "Save Game Error",
+            JOptionPane.ERROR_MESSAGE);
+        ex.printStackTrace(); // Optional: Print the stack trace for debugging
+      }
     });
 
     exitItem.addActionListener((ActionEvent e) -> System.exit(0));

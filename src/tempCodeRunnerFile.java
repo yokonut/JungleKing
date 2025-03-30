@@ -1,1 +1,1 @@
-Mute
+frame.add(loadedGame.displayPanel);

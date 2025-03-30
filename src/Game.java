@@ -1,3 +1,9 @@
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -11,18 +17,24 @@ import javax.swing.JOptionPane;
  * The Game class represents the main game logic for the Jungle King game.
  * It handles the initialization of the game, player turns, and game rules.
  */
-public class Game {
+public class Game implements Serializable {
+    private static final long serialVersionUID = 1L; // Added for serialization
+
     private Board board;
     private Player player1, player2;
     private Player currentPlayer;
-    private ArrayDisplayPanel displayPanel;
+    public transient /* i changed this to public */ ArrayDisplayPanel displayPanel;
     private Map<String, Integer> pieceHierarchy;
-    private EatingSoundEffect eatingSoundEffect;
-    private MovingSoundEffect movingSoundEffect;
-    private ErrorSoundEffect errorSoundEffect;
-    private WinSoundEffect winSoundEffect;
-    private JFrame frame;
-    private JPanel menuPanel;
+    private transient EatingSoundEffect eatingSoundEffect;
+    private transient MovingSoundEffect movingSoundEffect;
+    private transient ErrorSoundEffect errorSoundEffect;
+    private transient WinSoundEffect winSoundEffect;
+    private transient JFrame frame;
+    private transient JPanel menuPanel;
+
+    // new
+    private transient WaterSplashEffect waterSplashEffect;
+    private transient SelectSoundEffect selectSoundEffect;
 
     /**
      * Constructs a new Game and initializes the game components.
@@ -93,20 +105,22 @@ public class Game {
 
     /**
      * Returns player 1.
+     * 
      * @return
      */
     public Player getPlayer1() {
         return player1;
     }
-    
+
     /**
      * Returns player 2.
+     * 
      * @return
      */
     public Player getPlayer2() {
         return player2;
     }
-    
+
     /**
      * Sets the current player.
      *
@@ -115,8 +129,7 @@ public class Game {
     public void setCurrentPlayer(Player player) {
         this.currentPlayer = player;
     }
-    
-    
+
     /**
      * Attempts to move a piece to a new position on the board.
      *
@@ -181,7 +194,6 @@ public class Game {
         return true;
     }
 
-
     /**
      * Returns the current player.
      *
@@ -225,4 +237,54 @@ public class Game {
             currentPlayer = player1;
         }
     }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject(); // Deserialize non-transient fields
+
+        // Reinitialize transient fields
+        this.eatingSoundEffect = new EatingSoundEffect();
+        this.movingSoundEffect = new MovingSoundEffect();
+        this.errorSoundEffect = new ErrorSoundEffect();
+        this.winSoundEffect = new WinSoundEffect();
+        this.waterSplashEffect = new WaterSplashEffect(); // Reinitialize waterSplashEffect
+        this.selectSoundEffect = new SelectSoundEffect(); // Reinitialize selectSoundEffect
+
+        // Reinitialize displayPanel with all required parameters
+        this.displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect, selectSoundEffect);
+        this.displayPanel.setGame(this); // Link the display panel back to the game
+        this.frame = new JFrame(); // Reinitialize JFrame
+        this.menuPanel = new JPanel(); // Reinitialize JPanel
+    }
+
+    /*
+     * Saves Game
+     */
+
+    public void saveGame(String fileName) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(this); // Serialize the current Game object
+            System.out.println("Game saved successfully to " + fileName);
+        } catch (IOException e) {
+            System.err.println("Error saving game: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Loads a saved game from a file.
+     *
+     * @param fileName the name of the file to load the game from
+     * @return the loaded Game object, or null if loading failed
+     */
+
+    public static Game loadGame(String fileName) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            Game loadedGame = (Game) ois.readObject(); // Deserialize the Game object
+            System.out.println("Game loaded successfully from " + fileName);
+            return loadedGame;
+        } catch (IOException | ClassNotFoundException e) {
+            System.err.println("Error loading game: " + e.getMessage());
+            return null;
+        }
+    }
+
 }
