@@ -14,7 +14,7 @@ public class MovingSoundEffect {
              */
 
             AudioInputStream audioStream = AudioSystem
-                    .getAudioInputStream(getClass().getResource("/sounds/music.wav"));
+                    .getAudioInputStream(getClass().getResource("/sounds/movement.wav"));
             clip = AudioSystem.getClip();
             clip.open(audioStream);
             FloatControl gainControl = (FloatControl) clip.getControl(FloatControl.Type.MASTER_GAIN);
