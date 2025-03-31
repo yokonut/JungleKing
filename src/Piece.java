@@ -1,5 +1,5 @@
 import java.awt.Image;
-import java.io.File;
+//import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -16,7 +16,7 @@ public class Piece implements Serializable {
     protected String name;
     protected int x, y;
     protected Player owner;
-    protected Board board;
+    protected Board board; // should this be transient
     protected transient Image image;
 
     /**

@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 
 public class JungleKing {
   public static void main(String[] args) {
+    DataManager dataManager = new DataManager();
+
     // Create the main frame
     MusicPlayer musicPlayer = new MusicPlayer();
     Player player1 = new Player("Player 1");
@@ -24,14 +26,14 @@ public class JungleKing {
 
     // Create menu items
     JMenuItem newGameItem = new JMenuItem("New Game");
-    JMenuItem saveGameIteam = new JMenuItem("Save Game"); // NEW
+    JMenuItem saveGameItem = new JMenuItem("Save Game"); // NEW
     JMenuItem exitItem = new JMenuItem("Exit");
     JMenuItem instructionsItem = new JMenuItem("Instructions");
     JMenuItem muteItem = new JMenuItem("Mute");
 
     // Add menu items to menus
     fileMenu.add(newGameItem);
-    fileMenu.add(saveGameIteam); // NEW
+    fileMenu.add(saveGameItem); // NEW
     fileMenu.add(exitItem);
     helpMenu.add(instructionsItem);
     muteMenu.add(muteItem);
@@ -53,12 +55,15 @@ public class JungleKing {
         selectSoundEffect);
     MenuPanel menuPanel = new MenuPanel();
     Game game = new Game(board, displayPanel, eatingSoundEffect, movingSoundEffect, errorSoundEffect, player1,
-        player2, winSoundEffect, frame, menuPanel);
+        player2, winSoundEffect, frame, menuPanel, true);
     /*
      * i dont think we used that
      */
     // DecideFirstPlayer decideFirstPlayer = new
     // DecideFirstPlayer(selectSoundEffect, game, frame, displayPanel);
+
+    // Initialize DataManager with the Game object
+    dataManager.saveLoad(game); // new
 
     displayPanel.setGame(game);
 
@@ -102,13 +107,15 @@ public class JungleKing {
     musicButton.setText("Mute");
     muteItem.setText("Mute");
 
+    dataManager.setDependencies(frame, menuBar, menuPanel);
+
     startButton.addActionListener((ActionEvent e) -> {
       // Create a fresh board and display panel
       Board newBoard = new Board(player1, player2);
       ArrayDisplayPanel newDisplayPanel = new ArrayDisplayPanel(newBoard, errorSoundEffect, waterSplashEffect,
           selectSoundEffect);
       Game newGame = new Game(newBoard, newDisplayPanel, eatingSoundEffect, movingSoundEffect,
-          errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
+          errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel, true);
 
       newDisplayPanel.setGame(newGame);
       DecideFirstPlayer newDecidePanel = new DecideFirstPlayer(selectSoundEffect, newGame, frame,
@@ -119,6 +126,7 @@ public class JungleKing {
       frame.add(newDecidePanel);
       frame.pack();
       frame.setAlwaysOnTop(true);
+
       // Set the menu bar to the frame
       frame.setJMenuBar(menuBar);
 
@@ -129,24 +137,31 @@ public class JungleKing {
     });
 
     loadButton.addActionListener((ActionEvent e) -> {
-      String fileName = "savegame.dat"; // Default file name for the saved game
-      Game loadedGame = Game.loadGame(fileName); // Call the loadGame method to deserialize the game
-
+      Game loadedGame = dataManager.load(); // Load the game
       if (loadedGame != null) {
-        JOptionPane.showMessageDialog(frame, "Game loaded successfully!", "Load Game", JOptionPane.INFORMATION_MESSAGE);
+        // game = loadedGame; //new
 
-        // Update the current game state with the loaded game
-        frame.getContentPane().removeAll(); // Clear the current frame
-        frame.add(loadedGame.displayPanel); // Add the loaded game's display panel
-        frame.setJMenuBar(menuBar); // Reattach the menu bar
-        frame.revalidate();
-        frame.repaint();
+        // Create a new display panel for the loaded game
+        ArrayDisplayPanel newDisplayPanel = new ArrayDisplayPanel(loadedGame.board, errorSoundEffect, waterSplashEffect,
+            selectSoundEffect);
 
-        // Restore focus to the display panel
-        loadedGame.displayPanel.setFocusable(true);
-        loadedGame.displayPanel.requestFocusInWindow();
+        // Update the loaded game with the new display panel
+        newDisplayPanel.setGame(loadedGame);
+
+        // Swap panels
+        frame.getContentPane().removeAll();
+        frame.add(newDisplayPanel);
+        frame.pack();
+        frame.setAlwaysOnTop(true);
+
+        // Set the menu bar to the frame
+        frame.setJMenuBar(menuBar);
+
+        // Focus input
+        newDisplayPanel.setFocusable(true);
+        newDisplayPanel.requestFocusInWindow();
       } else {
-        JOptionPane.showMessageDialog(frame, "Failed to load game.", "Load Game", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(frame, "Failed to load the game.", "Error", JOptionPane.ERROR_MESSAGE);
       }
     });
 
@@ -170,14 +185,18 @@ public class JungleKing {
       }
     });
 
-    // Menu item actions
+    /*
+     * menu item actions
+     * 
+     */
+
     newGameItem.addActionListener((ActionEvent e) -> {
       // Create a fresh board and display panel
       Board newBoard = new Board(player1, player2);
       ArrayDisplayPanel newDisplayPanel = new ArrayDisplayPanel(newBoard, errorSoundEffect, waterSplashEffect,
           selectSoundEffect);
       Game newGame = new Game(newBoard, newDisplayPanel, eatingSoundEffect, movingSoundEffect,
-          errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel);
+          errorSoundEffect, player1, player2, winSoundEffect, frame, menuPanel, true);
 
       newDisplayPanel.setGame(newGame);
       DecideFirstPlayer newDecidePanel = new DecideFirstPlayer(selectSoundEffect, newGame, frame,
@@ -196,16 +215,11 @@ public class JungleKing {
       newDisplayPanel.requestFocusInWindow();
     });
 
-    saveGameIteam.addActionListener((ActionEvent e) -> {
-      String fileName = "savegame.dat"; // Default file name
-      try {
-        game.saveGame(fileName); // Call the saveGame method
-        JOptionPane.showMessageDialog(frame, "Game saved successfully!", "Save Game", JOptionPane.INFORMATION_MESSAGE);
-      } catch (Exception ex) {
-        JOptionPane.showMessageDialog(frame, "Error saving game: " + ex.getMessage(), "Save Game Error",
-            JOptionPane.ERROR_MESSAGE);
-        ex.printStackTrace(); // Optional: Print the stack trace for debugging
-      }
+    /* for the menu panel */
+
+    saveGameItem.addActionListener((ActionEvent e) -> {
+      dataManager.saveLoad(game); // Save the game object along with the pieces
+      dataManager.save(); // Use the instance of DataManager created earlier
     });
 
     exitItem.addActionListener((ActionEvent e) -> System.exit(0));

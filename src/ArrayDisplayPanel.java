@@ -2,7 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-
+/*
+ * The ArrayDisplayPanel class is responsible for displaying the game board and
+ * handling user interactions.
+ */
 
 public class ArrayDisplayPanel extends JPanel {
     private final int WIDTH = 9;
@@ -15,9 +18,9 @@ public class ArrayDisplayPanel extends JPanel {
     private Piece selectedPiece; // Track selected piece
     private Game game; // Let the panel communicate with the Game
 
-
     /**
-     * Constructs a new ArrayDisplayPanel and initializes the board and sound effects.
+     * Constructs a new ArrayDisplayPanel and initializes the board and sound
+     * effects.
      *
      * @param board             The game board to be displayed.
      * @param errorSoundEffect  The sound effect for errors.
@@ -105,6 +108,7 @@ public class ArrayDisplayPanel extends JPanel {
 
     /**
      * Handles mouse click events to select or move pieces on the board.
+     * 
      * @param mouseX
      * @param mouseY
      */
@@ -134,9 +138,8 @@ public class ArrayDisplayPanel extends JPanel {
             selectedPiece = clickedPiece;
             selectSoundEffect.play();
             System.out.println("Selected" + selectedPiece.getName());
-            repaint(); 
-        }
-        else {
+            repaint();
+        } else {
             // Trying to move selected piece
             int newX = row;
             int newY = col;
@@ -164,10 +167,9 @@ public class ArrayDisplayPanel extends JPanel {
                 System.out.println("You can only move one step.");
                 errorSoundEffect.play();
             }
-        } 
+        }
 
     }
-
 
     /**
      * Paints the components of the panel, including the board and pieces.
@@ -235,7 +237,6 @@ public class ArrayDisplayPanel extends JPanel {
         g2.drawString(playerInfo, playerInfoX, playerInfoY);
         g2.drawString(selectionInfo, selectionInfoX, selectionInfoY);
     }
-
 
     /**
      * Updates the board by repainting the panel.

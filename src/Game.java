@@ -1,8 +1,9 @@
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+
+//import java.io.FileInputStream;
+//import java.io.FileOutputStream;
+//import java.io.IOException;
+//import java.io.ObjectInputStream;
+//import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,9 +21,14 @@ import javax.swing.JOptionPane;
 public class Game implements Serializable {
     private static final long serialVersionUID = 1L; // Added for serialization
 
-    private Board board;
-    private Player player1, player2;
-    private Player currentPlayer;
+    public Board board;
+    /*
+     * private Board board;
+     * private Player player1, player2;
+     * private Player currentPlayer;
+     */
+    public Player player1, player2;
+    public Player currentPlayer;
     public transient /* i changed this to public */ ArrayDisplayPanel displayPanel;
     private Map<String, Integer> pieceHierarchy;
     private transient EatingSoundEffect eatingSoundEffect;
@@ -32,16 +38,12 @@ public class Game implements Serializable {
     private transient JFrame frame;
     private transient JPanel menuPanel;
 
-    // new
-    private transient WaterSplashEffect waterSplashEffect;
-    private transient SelectSoundEffect selectSoundEffect;
-
     /**
      * Constructs a new Game and initializes the game components.
      */
     public Game(Board board, ArrayDisplayPanel displayPanel, EatingSoundEffect eatingSoundEffect,
             MovingSoundEffect movingSoundEffect, ErrorSoundEffect errorSoundEffect, Player player1, Player player2,
-            WinSoundEffect winSoundEffect, JFrame frame, JPanel menuPanel) {
+            WinSoundEffect winSoundEffect, JFrame frame, JPanel menuPanel, boolean isNewGame) {
         // Initialize Game components
         this.board = board;
         this.displayPanel = displayPanel;
@@ -66,6 +68,41 @@ public class Game implements Serializable {
         pieceHierarchy.put("Lion", 6);
         pieceHierarchy.put("Elephant", 7);
 
+        // Initialize pieces only if it's a new game
+        if (isNewGame) {
+            initializePieces();
+        }
+
+        /*
+         * // Create a list of all pieces while initializing them
+         * List<Piece> pieces = new ArrayList<>();
+         * pieces.add(new Elephant(0, 2, player1, board));
+         * pieces.add(new Lion(6, 0, player1, board));
+         * pieces.add(new Tiger(0, 0, player1, board));
+         * pieces.add(new Leopard(4, 2, player1, board));
+         * pieces.add(new Wolf(2, 2, player1, board));
+         * pieces.add(new Dog(5, 1, player1, board));
+         * pieces.add(new Cat(1, 1, player1, board));
+         * pieces.add(new Rat(6, 2, player1, board));
+         * pieces.add(new Elephant(6, 6, player2, board));
+         * pieces.add(new Lion(0, 8, player2, board));
+         * pieces.add(new Tiger(6, 8, player2, board));
+         * pieces.add(new Leopard(2, 6, player2, board));
+         * pieces.add(new Wolf(4, 6, player2, board));
+         * pieces.add(new Dog(1, 7, player2, board));
+         * pieces.add(new Cat(5, 7, player2, board));
+         * pieces.add(new Rat(0, 6, player2, board));
+         * 
+         * // Place Pieces on Board
+         * for (Piece piece : pieces) {
+         * board.placePiece(piece);
+         * }
+         */
+        // Determine the first player
+
+    }
+
+    private void initializePieces() {
         // Create a list of all pieces while initializing them
         List<Piece> pieces = new ArrayList<>();
         pieces.add(new Elephant(0, 2, player1, board));
@@ -89,9 +126,6 @@ public class Game implements Serializable {
         for (Piece piece : pieces) {
             board.placePiece(piece);
         }
-
-        // Determine the first player
-
     }
 
     /**
@@ -238,53 +272,8 @@ public class Game implements Serializable {
         }
     }
 
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject(); // Deserialize non-transient fields
-
-        // Reinitialize transient fields
-        this.eatingSoundEffect = new EatingSoundEffect();
-        this.movingSoundEffect = new MovingSoundEffect();
-        this.errorSoundEffect = new ErrorSoundEffect();
-        this.winSoundEffect = new WinSoundEffect();
-        this.waterSplashEffect = new WaterSplashEffect(); // Reinitialize waterSplashEffect
-        this.selectSoundEffect = new SelectSoundEffect(); // Reinitialize selectSoundEffect
-
-        // Reinitialize displayPanel with all required parameters
-        this.displayPanel = new ArrayDisplayPanel(board, errorSoundEffect, waterSplashEffect, selectSoundEffect);
-        this.displayPanel.setGame(this); // Link the display panel back to the game
-        this.frame = new JFrame(); // Reinitialize JFrame
-        this.menuPanel = new JPanel(); // Reinitialize JPanel
-    }
-
-    /*
-     * Saves Game
-     */
-
-    public void saveGame(String fileName) {
-        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
-            oos.writeObject(this); // Serialize the current Game object
-            System.out.println("Game saved successfully to " + fileName);
-        } catch (IOException e) {
-            System.err.println("Error saving game: " + e.getMessage());
-        }
-    }
-
-    /**
-     * Loads a saved game from a file.
-     *
-     * @param fileName the name of the file to load the game from
-     * @return the loaded Game object, or null if loading failed
-     */
-
-    public static Game loadGame(String fileName) {
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
-            Game loadedGame = (Game) ois.readObject(); // Deserialize the Game object
-            System.out.println("Game loaded successfully from " + fileName);
-            return loadedGame;
-        } catch (IOException | ClassNotFoundException e) {
-            System.err.println("Error loading game: " + e.getMessage());
-            return null;
-        }
+    public Board getBoard() {
+        return board;
     }
 
 }
