@@ -7,12 +7,6 @@ public class WaterSplashEffect {
 
     public void play() {
         try {
-            /*
-             * AudioInputStream audioStream = AudioSystem
-             * .getAudioInputStream(new
-             * File("C:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-SOUNDS/water.wav"));
-             */
-
             AudioInputStream audioStream = AudioSystem
                     .getAudioInputStream(getClass().getResource("/sounds/water.wav"));
             clip = AudioSystem.getClip();

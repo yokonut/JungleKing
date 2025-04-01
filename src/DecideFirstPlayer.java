@@ -4,6 +4,11 @@ import java.awt.event.*;
 import java.util.*;
 import java.util.List;
 
+/*
+ * The DecideFirstPlayer class is responsible for managing the selection of the first player
+ * by allowing players to pick animal pieces from mystery boxes.
+ */
+
 public class DecideFirstPlayer extends JPanel {
 
     private final int boxSize = 50;
@@ -161,19 +166,6 @@ public class DecideFirstPlayer extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-
-        // Load images
-        /*
-         * Image background = new ImageIcon(
-         * "C:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-IMAGES/background.png")
-         * .getImage();
-         * Image mystery = new
-         * ImageIcon("C:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-IMAGES/box.png").
-         * getImage();
-         * Image selected = new
-         * ImageIcon("c:/Users/silus/Desktop/CCPROG3/MC02/JUNGLE-KING-IMAGES/box1.png").
-         * getImage();
-         */
 
         Image background = new ImageIcon(getClass().getResource("/images/background.png")).getImage();
         Image mystery = new ImageIcon(getClass().getResource("/images/box.png")).getImage();

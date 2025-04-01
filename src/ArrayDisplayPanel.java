@@ -27,6 +27,7 @@ public class ArrayDisplayPanel extends JPanel {
      * @param waterSplashEffect The sound effect for water splash.
      * @param selectSoundEffect The sound effect for selection.
      */
+
     public ArrayDisplayPanel(Board board, ErrorSoundEffect errorSoundEffect, WaterSplashEffect waterSplashEffect,
             SelectSoundEffect selectSoundEffect) {
         this.errorSoundEffect = errorSoundEffect;
@@ -35,6 +36,8 @@ public class ArrayDisplayPanel extends JPanel {
 
         this.board = board;
         setPreferredSize(new Dimension(450, 350));
+
+        // handle mouse clicks
 
         addMouseListener(new MouseAdapter() {
             @Override
@@ -46,6 +49,8 @@ public class ArrayDisplayPanel extends JPanel {
 
         setFocusable(true);
         requestFocusInWindow();
+
+        // handle keyboard input
 
         addKeyListener(new KeyAdapter() {
             @Override
@@ -79,7 +84,7 @@ public class ArrayDisplayPanel extends JPanel {
                         return;
                 }
 
-                boolean moved = game.tryMove(selectedPiece, newX, newY);
+                boolean moved = game.tryMove(selectedPiece, newX, newY); // Check if the move is valid
                 if (moved) {
                     if (board.isLake(newX, newY) && selectedPiece.getName().equals("Rat")) {
                         selectedPiece.loadImage("ratwater");
@@ -207,14 +212,14 @@ public class ArrayDisplayPanel extends JPanel {
                 ? "Selected: " + selectedPiece.getName()
                 : "No piece selected";
 
-        // Coordinates
+        // Calculate positions for text
         int playerInfoX = 10;
         int playerInfoY = getHeight() - 25;
 
         int selectionInfoX = 10;
         int selectionInfoY = getHeight() - 10;
 
-        // Font
+        // Set font and color for text
         Font font = new Font("Arial", Font.BOLD, 14);
         g.setFont(font);
 
