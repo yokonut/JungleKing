@@ -10,7 +10,6 @@ public class Board implements Serializable {
 
     private static int WIDTH = 9;
     private static int HEIGHT = 7;
-    // private Tile[][] grid; - changed to public
     public static Tile[][] grid;
 
     /**
@@ -51,6 +50,12 @@ public class Board implements Serializable {
         setHomeBase(3, 0, player1);
         setHomeBase(3, 8, player2);
     }
+
+    /**
+     * Gets the grid of tiles on the board.
+     *
+     * @return the grid of tiles
+     */
 
     public Tile[][] getGrid() {
         return grid;
@@ -240,6 +245,10 @@ public class Board implements Serializable {
     public boolean isOutOfBounds(int x, int y) {
         return x < 0 || x >= HEIGHT || y < 0 || y >= WIDTH;
     }
+
+    /*
+     * * Clears the board by removing all pieces from the tiles.
+     */
 
     public void clearBoard() {
         for (int i = 0; i < grid.length; i++) {

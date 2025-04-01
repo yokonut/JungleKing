@@ -1,5 +1,4 @@
 import java.awt.Image;
-//import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 
@@ -16,7 +15,7 @@ public class Piece implements Serializable {
     protected String name;
     protected int x, y;
     protected Player owner;
-    protected Board board; // should this be transient
+    protected Board board;
     protected transient Image image;
 
     /**
@@ -132,9 +131,13 @@ public class Piece implements Serializable {
     /**
      * Custom deserialization to reload transient fields.
      */
-    private void readObject(java.io.ObjectInputStream in) throws IOException, ClassNotFoundException {
-        in.defaultReadObject(); // Deserialize non-transient fields
-        loadImage(this.name); // Reload the image
-    }
+
+    /*
+     * private void readObject(java.io.ObjectInputStream in) throws IOException,
+     * ClassNotFoundException {
+     * in.defaultReadObject(); // Deserialize non-transient fields
+     * loadImage(this.name); // Reload the image
+     * }
+     */
 
 }

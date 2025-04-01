@@ -1,5 +1,4 @@
 import java.awt.Image;
-//import java.io.File;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -120,9 +119,13 @@ public class Tile implements Serializable {
   /**
    * Custom deserialization to reload the transient image field.
    */
-  private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
-    in.defaultReadObject(); // Deserialize non-transient fields
-    loadImage(); // Reload the image after deserialization
-  }
+
+  /*
+   * private void readObject(ObjectInputStream in) throws IOException,
+   * ClassNotFoundException {
+   * in.defaultReadObject(); // Deserialize non-transient fields
+   * loadImage(); // Reload the image after deserialization
+   * }
+   */
 
 }
