@@ -89,6 +89,47 @@ public class ArrayDisplayPanel extends JPanel {
                     if (board.isLake(newX, newY) && selectedPiece.getName().equals("Rat")) {
                         selectedPiece.loadImage("ratwater");
                         waterSplashEffect.play();
+                    } // Inserted trap logic
+                    else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Rat")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("rat1trap");
+                        else
+                            selectedPiece.loadImage("rat2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Cat")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("cat1trap");
+                        else
+                            selectedPiece.loadImage("cat2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Dog")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("dog1trap");
+                        else
+                            selectedPiece.loadImage("dog2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Wolf")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("wolf1trap");
+                        else
+                            selectedPiece.loadImage("wolf2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Leopard")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("leopard1trap");
+                        else
+                            selectedPiece.loadImage("leopard2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Tiger")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("tiger1trap");
+                        else
+                            selectedPiece.loadImage("tiger2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Lion")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("lion1trap");
+                        else
+                            selectedPiece.loadImage("lion2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Elephant")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("elephant1trap");
+                        else
+                            selectedPiece.loadImage("elephant2trap");
                     } else {
                         selectedPiece.loadImage(selectedPiece.getName());
                     }
@@ -159,6 +200,48 @@ public class ArrayDisplayPanel extends JPanel {
                     if (board.isLake(newX, newY) && selectedPiece.getName().equals("Rat")) {
                         selectedPiece.loadImage("ratwater");
                         waterSplashEffect.play();
+                    }
+                    // for traps
+                    else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Rat")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("rat1trap");
+                        else
+                            selectedPiece.loadImage("rat2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Cat")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("cat1trap");
+                        else
+                            selectedPiece.loadImage("cat2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Dog")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("dog1trap");
+                        else
+                            selectedPiece.loadImage("dog2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Wolf")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("wolf1trap");
+                        else
+                            selectedPiece.loadImage("wolf2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Leopard")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("leopard1trap");
+                        else
+                            selectedPiece.loadImage("leopard2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Tiger")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("tiger1trap");
+                        else
+                            selectedPiece.loadImage("tiger2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Lion")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("lion1trap");
+                        else
+                            selectedPiece.loadImage("lion2trap");
+                    } else if (board.isTrap(newX, newY) && selectedPiece.getName().equals("Elephant")) {
+                        if (selectedPiece.getOwner() == game.getPlayer1())
+                            selectedPiece.loadImage("elephant1trap");
+                        else
+                            selectedPiece.loadImage("elephant2trap");
                     } else {
                         selectedPiece.loadImage(selectedPiece.getName());
                     }
