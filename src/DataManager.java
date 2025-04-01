@@ -123,4 +123,8 @@ public class DataManager implements Serializable {
       return null; // Return null if an error occurs
     }
   }
+
+  public Game getGame() {
+    return gp;
+  }
 }
