@@ -107,7 +107,9 @@ public class JungleKing {
     musicButton.setText("Mute");
     muteItem.setText("Mute");
 
-    dataManager.setDependencies(frame, menuBar, menuPanel);
+    dataManager.setDependencies(frame, menuBar, menuPanel,
+        new EatingSoundEffect(), new MovingSoundEffect(), new ErrorSoundEffect(),
+        new WinSoundEffect(), new WaterSplashEffect(), new SelectSoundEffect());
 
     startButton.addActionListener((ActionEvent e) -> {
       // Create a fresh board and display panel

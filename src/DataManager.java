@@ -16,12 +16,6 @@ public class DataManager implements Serializable {
   private Game gp; // Reference to the Game object
   private Piece piece; // Reference to the Piece object
 
-  /*
-   * private final int WIDTH = 9;
-   * private final int HEIGHT = 7;
-   * private final Board board;
-   */
-
   private ErrorSoundEffect errorSoundEffect;
   private SelectSoundEffect selectSoundEffect;
   private WaterSplashEffect waterSplashEffect;
@@ -80,10 +74,19 @@ public class DataManager implements Serializable {
     }
   }
 
-  public void setDependencies(JFrame frame, JMenuBar menuBar, JPanel menuPanel) {
+  public void setDependencies(JFrame frame, JMenuBar menuBar, JPanel menuPanel,
+      EatingSoundEffect eatingSoundEffect, MovingSoundEffect movingSoundEffect,
+      ErrorSoundEffect errorSoundEffect, WinSoundEffect winSoundEffect,
+      WaterSplashEffect waterSplashEffect, SelectSoundEffect selectSoundEffect) {
     this.frame = frame;
     this.menuBar = menuBar;
     this.menuPanel = menuPanel;
+    this.eatingSoundEffect = eatingSoundEffect;
+    this.movingSoundEffect = movingSoundEffect;
+    this.errorSoundEffect = errorSoundEffect;
+    this.winSoundEffect = winSoundEffect;
+    this.waterSplashEffect = waterSplashEffect;
+    this.selectSoundEffect = selectSoundEffect;
   }
 
   /* load data function */
@@ -122,9 +125,5 @@ public class DataManager implements Serializable {
       e.printStackTrace(); // Trace error path
       return null; // Return null if an error occurs
     }
-  }
-
-  public Game getGame() {
-    return gp;
   }
 }
